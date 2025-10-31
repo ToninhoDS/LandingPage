@@ -188,7 +188,7 @@ const B2BCTASection = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-2 border-gray-600 text-white hover:bg-gray-800 px-12 py-6 text-xl rounded-2xl"
+              className="border-2 border-amber-400 text-amber-400 bg-transparent hover:bg-amber-400 hover:text-black px-12 py-6 text-xl rounded-2xl transition-all duration-300"
             >
               Ver Demonstração ao Vivo
               <ArrowRight className="h-6 w-6 ml-3" />

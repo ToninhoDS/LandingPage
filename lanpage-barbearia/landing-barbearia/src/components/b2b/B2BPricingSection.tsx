@@ -167,41 +167,41 @@ const B2BPricingSection = () => {
   };
 
   return (
-    <section id="b2b-pricing" className="py-24 bg-gradient-to-br from-gray-900 via-black to-gray-900 relative overflow-hidden">
+    <section id="b2b-pricing" className="py-16 bg-gradient-to-br from-gray-900 via-black to-gray-900 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNkNGFmMzciIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTMwIDMwaDMwdjMwSDMweiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
       
-      <div className="container mx-auto max-w-7xl px-6 relative z-10">
+      <div className="container mx-auto max-w-6xl px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <div className={`transform transition-all duration-1000 ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
-            <span className="px-6 py-3 bg-green-500/15 text-green-300 text-lg font-semibold rounded-full border border-green-500/30 backdrop-blur-sm inline-block mb-8">
+            <span className="px-4 py-2 bg-green-500/15 text-green-300 text-sm font-semibold rounded-full border border-green-500/30 backdrop-blur-sm inline-block mb-6">
               💰 Investimento que se Paga
             </span>
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
               Planos que cabem
               <span className="block bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">
                 no seu bolso
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Escolha o plano ideal para sua barbearia. Todos incluem teste grátis de 7 dias 
-              e garantia de 30 dias. Se não aumentar sua receita, devolvemos seu dinheiro.
+              e garantia de 30 dias.
             </p>
           </div>
         </div>
 
         {/* Billing Toggle */}
-        <div className={`flex justify-center mb-12 transform transition-all duration-1000 delay-300 ${
+        <div className={`flex justify-center mb-10 transform transition-all duration-1000 delay-300 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
-          <div className="bg-gray-800/50 p-2 rounded-2xl backdrop-blur-sm border border-gray-700">
+          <div className="bg-gray-800/50 p-1.5 rounded-xl backdrop-blur-sm border border-gray-700">
             <div className="flex">
               <button
                 onClick={() => setBillingCycle('monthly')}
-                className={`px-6 py-3 rounded-xl transition-all duration-300 ${
+                className={`px-4 py-2 rounded-lg transition-all duration-300 text-sm ${
                   billingCycle === 'monthly'
                     ? 'bg-green-500 text-black font-bold'
                     : 'text-gray-300 hover:text-white'
@@ -211,14 +211,14 @@ const B2BPricingSection = () => {
               </button>
               <button
                 onClick={() => setBillingCycle('yearly')}
-                className={`px-6 py-3 rounded-xl transition-all duration-300 relative ${
+                className={`px-4 py-2 rounded-lg transition-all duration-300 relative text-sm ${
                   billingCycle === 'yearly'
                     ? 'bg-green-500 text-black font-bold'
                     : 'text-gray-300 hover:text-white'
                 }`}
               >
                 Anual
-                <span className="absolute -top-2 -right-2 bg-amber-500 text-black text-xs px-2 py-1 rounded-full font-bold">
+                <span className="absolute -top-1 -right-1 bg-amber-500 text-black text-xs px-1.5 py-0.5 rounded-full font-bold">
                   -17%
                 </span>
               </button>
@@ -226,64 +226,64 @@ const B2BPricingSection = () => {
           </div>
         </div>
 
-        {/* Pricing Cards */}
-        <div className={`grid lg:grid-cols-3 gap-8 mb-16 transform transition-all duration-1000 delay-500 ${
+        {/* Pricing Cards - Compactos e Responsivos */}
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 transform transition-all duration-1000 delay-500 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           {plans.map((plan, index) => (
             <Card 
               key={index} 
-              className={`relative p-8 backdrop-blur-sm transition-all duration-300 hover:scale-105 ${
+              className={`relative p-6 backdrop-blur-sm transition-all duration-300 hover:scale-105 h-fit ${
                 plan.popular 
-                  ? 'bg-gradient-to-br from-amber-500/20 to-amber-600/20 border-amber-500/50 border-2 scale-105' 
+                  ? 'bg-gradient-to-br from-amber-500/20 to-amber-600/20 border-amber-500/50 border-2 transform scale-105' 
                   : `${getColorClasses(plan.color).bg} ${getColorClasses(plan.color).border} border`
               }`}
             >
               {/* Popular Badge */}
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-black px-6 py-2 rounded-full font-bold text-sm flex items-center">
-                    <Star className="h-4 w-4 mr-2" />
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-black px-4 py-1 rounded-full font-bold text-xs flex items-center">
+                    <Star className="h-3 w-3 mr-1" />
                     MAIS POPULAR
                   </div>
                 </div>
               )}
 
-              {/* Plan Header */}
-              <div className="text-center mb-8">
-                <div className={`${getColorClasses(plan.color).iconBg} p-4 rounded-2xl w-fit mx-auto mb-4`}>
-                  <plan.icon className={`h-8 w-8 ${getColorClasses(plan.color).text}`} />
+              {/* Plan Header - Compacto */}
+              <div className="text-center mb-6">
+                <div className={`${getColorClasses(plan.color).iconBg} p-3 rounded-xl w-fit mx-auto mb-3`}>
+                  <plan.icon className={`h-6 w-6 ${getColorClasses(plan.color).text}`} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                <p className="text-gray-400">{plan.description}</p>
+                <h3 className="text-xl font-bold text-white mb-1">{plan.name}</h3>
+                <p className="text-gray-400 text-sm">{plan.description}</p>
               </div>
 
-              {/* Pricing */}
-              <div className="text-center mb-8">
-                <div className="flex items-baseline justify-center mb-2">
-                  <span className="text-4xl font-bold text-white">
+              {/* Pricing - Compacto */}
+              <div className="text-center mb-6">
+                <div className="flex items-baseline justify-center mb-1">
+                  <span className="text-3xl font-bold text-white">
                     {formatCurrency(plan.pricing[billingCycle])}
                   </span>
-                  <span className="text-gray-400 ml-2">
+                  <span className="text-gray-400 ml-1 text-sm">
                     /{billingCycle === 'monthly' ? 'mês' : 'ano'}
                   </span>
                 </div>
                 {plan.savings && (
-                  <div className="text-green-400 text-sm font-medium">
+                  <div className="text-green-400 text-xs font-medium">
                     💰 {plan.savings}
                   </div>
                 )}
               </div>
 
-              {/* ROI Info */}
-              <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 mb-6">
-                <div className="flex items-center justify-between text-sm">
+              {/* ROI Info - Compacto */}
+              <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 mb-5">
+                <div className="flex items-center justify-between text-xs">
                   <span className="text-gray-300">ROI Esperado:</span>
                   <span className="text-green-400 font-bold">
                     {formatCurrency(plan.roi.expectedReturn)}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-sm mt-1">
+                <div className="flex items-center justify-between text-xs mt-1">
                   <span className="text-gray-300">Se paga em:</span>
                   <span className="text-green-400 font-bold">
                     {plan.roi.paybackDays} dias
@@ -291,25 +291,30 @@ const B2BPricingSection = () => {
                 </div>
               </div>
 
-              {/* Features */}
-              <div className="space-y-3 mb-8">
-                {plan.features.map((feature, featureIndex) => (
+              {/* Features - Limitadas para manter compacto */}
+              <div className="space-y-2 mb-6">
+                {plan.features.slice(0, 4).map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-center">
-                    <Check className="h-5 w-5 text-green-400 mr-3 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">{feature}</span>
+                    <Check className="h-4 w-4 text-green-400 mr-2 flex-shrink-0" />
+                    <span className="text-gray-300 text-xs">{feature}</span>
                   </div>
                 ))}
-                {plan.limitations.map((limitation, limitIndex) => (
+                {plan.features.length > 4 && (
+                  <div className="text-gray-400 text-xs text-center pt-2">
+                    +{plan.features.length - 4} funcionalidades
+                  </div>
+                )}
+                {plan.limitations.slice(0, 1).map((limitation, limitIndex) => (
                   <div key={limitIndex} className="flex items-center">
-                    <X className="h-5 w-5 text-red-400 mr-3 flex-shrink-0" />
-                    <span className="text-gray-400 text-sm">{limitation}</span>
+                    <X className="h-4 w-4 text-red-400 mr-2 flex-shrink-0" />
+                    <span className="text-gray-400 text-xs">{limitation}</span>
                   </div>
                 ))}
               </div>
 
-              {/* CTA Button */}
+              {/* CTA Button - Compacto */}
               <Button 
-                className={`w-full py-4 text-lg font-bold ${
+                className={`w-full py-3 text-sm font-bold ${
                   plan.popular
                     ? 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black'
                     : `bg-gradient-to-r ${getColorClasses(plan.color).gradient} hover:opacity-90 text-white`
@@ -321,15 +326,15 @@ const B2BPricingSection = () => {
           ))}
         </div>
 
-        {/* Comparison Table */}
+        {/* Comparison Table - Mais compacta */}
         <div className={`transform transition-all duration-1000 delay-700 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-white mb-4">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-white mb-3">
               Compare os <span className="text-green-400">Planos</span>
             </h3>
-            <p className="text-xl text-gray-300">
+            <p className="text-lg text-gray-300">
               Veja todas as funcionalidades lado a lado
             </p>
           </div>
@@ -339,10 +344,10 @@ const B2BPricingSection = () => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-gray-700">
-                    <th className="text-left p-6 text-white font-bold">Funcionalidades</th>
-                    <th className="text-center p-6 text-blue-400 font-bold">Starter</th>
-                    <th className="text-center p-6 text-amber-400 font-bold">Professional</th>
-                    <th className="text-center p-6 text-purple-400 font-bold">Enterprise</th>
+                    <th className="text-left p-4 text-white font-bold text-sm">Funcionalidades</th>
+                    <th className="text-center p-4 text-blue-400 font-bold text-sm">Starter</th>
+                    <th className="text-center p-4 text-amber-400 font-bold text-sm">Professional</th>
+                    <th className="text-center p-4 text-purple-400 font-bold text-sm">Enterprise</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -358,26 +363,26 @@ const B2BPricingSection = () => {
                     ['API Personalizada', false, false, true]
                   ].map((row, index) => (
                     <tr key={index} className="border-b border-gray-700/50">
-                      <td className="p-6 text-gray-300 font-medium">{row[0]}</td>
-                      <td className="p-6 text-center">
+                      <td className="p-4 text-gray-300 font-medium text-sm">{row[0]}</td>
+                      <td className="p-4 text-center">
                         {typeof row[1] === 'boolean' ? (
-                          row[1] ? <Check className="h-5 w-5 text-green-400 mx-auto" /> : <X className="h-5 w-5 text-red-400 mx-auto" />
+                          row[1] ? <Check className="h-4 w-4 text-green-400 mx-auto" /> : <X className="h-4 w-4 text-red-400 mx-auto" />
                         ) : (
-                          <span className="text-white">{row[1]}</span>
+                          <span className="text-white text-sm">{row[1]}</span>
                         )}
                       </td>
-                      <td className="p-6 text-center">
+                      <td className="p-4 text-center">
                         {typeof row[2] === 'boolean' ? (
-                          row[2] ? <Check className="h-5 w-5 text-green-400 mx-auto" /> : <X className="h-5 w-5 text-red-400 mx-auto" />
+                          row[2] ? <Check className="h-4 w-4 text-green-400 mx-auto" /> : <X className="h-4 w-4 text-red-400 mx-auto" />
                         ) : (
-                          <span className="text-white">{row[2]}</span>
+                          <span className="text-white text-sm">{row[2]}</span>
                         )}
                       </td>
-                      <td className="p-6 text-center">
+                      <td className="p-4 text-center">
                         {typeof row[3] === 'boolean' ? (
-                          row[3] ? <Check className="h-5 w-5 text-green-400 mx-auto" /> : <X className="h-5 w-5 text-red-400 mx-auto" />
+                          row[3] ? <Check className="h-4 w-4 text-green-400 mx-auto" /> : <X className="h-4 w-4 text-red-400 mx-auto" />
                         ) : (
-                          <span className="text-white">{row[3]}</span>
+                          <span className="text-white text-sm">{row[3]}</span>
                         )}
                       </td>
                     </tr>
@@ -388,31 +393,30 @@ const B2BPricingSection = () => {
           </Card>
         </div>
 
-        {/* Guarantee */}
-        <div className={`text-center mt-16 transform transition-all duration-1000 delay-900 ${
+        {/* Guarantee - Compacta */}
+        <div className={`text-center mt-12 transform transition-all duration-1000 delay-900 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
-          <div className="bg-gradient-to-r from-green-400/10 to-emerald-600/10 border border-green-400/30 rounded-2xl p-8 backdrop-blur-sm">
-            <Shield className="h-16 w-16 text-green-400 mx-auto mb-6" />
-            <h3 className="text-3xl font-bold text-white mb-4">
+          <div className="bg-gradient-to-r from-green-400/10 to-emerald-600/10 border border-green-400/30 rounded-xl p-6 backdrop-blur-sm">
+            <Shield className="h-12 w-12 text-green-400 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-white mb-3">
               <span className="text-green-400">Garantia Total</span> de 30 Dias
             </h3>
-            <p className="text-xl text-gray-300 mb-6">
-              Se não aumentar sua receita em 30 dias, devolvemos 100% do seu dinheiro. 
-              Sem perguntas, sem burocracia.
+            <p className="text-lg text-gray-300 mb-4">
+              Se não aumentar sua receita em 30 dias, devolvemos 100% do seu dinheiro.
             </p>
-            <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="grid md:grid-cols-3 gap-4 text-center">
               <div className="flex items-center justify-center">
-                <Clock className="h-6 w-6 text-green-400 mr-3" />
-                <span className="text-white">7 dias grátis</span>
+                <Clock className="h-5 w-5 text-green-400 mr-2" />
+                <span className="text-white text-sm">7 dias grátis</span>
               </div>
               <div className="flex items-center justify-center">
-                <Shield className="h-6 w-6 text-green-400 mr-3" />
-                <span className="text-white">30 dias garantia</span>
+                <Shield className="h-5 w-5 text-green-400 mr-2" />
+                <span className="text-white text-sm">30 dias garantia</span>
               </div>
               <div className="flex items-center justify-center">
-                <Users className="h-6 w-6 text-green-400 mr-3" />
-                <span className="text-white">Suporte incluído</span>
+                <Users className="h-5 w-5 text-green-400 mr-2" />
+                <span className="text-white text-sm">Suporte incluído</span>
               </div>
             </div>
           </div>

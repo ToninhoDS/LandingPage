@@ -89,9 +89,13 @@ const ROICalculatorSection = () => {
   };
 
   return (
-    <section id="roi-calculator" className="py-24 bg-gradient-to-br from-gray-900 via-black to-gray-900 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNkNGFmMzciIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTMwIDMwaDMwdjMwSDMweiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
+    <section id="roi-calculator" className="py-24 bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+      {/* Enhanced Background decoration */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-green-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-green-500/5 to-amber-500/5 rounded-full blur-3xl"></div>
+      </div>
       
       <div className="container mx-auto max-w-7xl px-6 relative z-10">
         {/* Header */}
@@ -103,103 +107,103 @@ const ROICalculatorSection = () => {
               💰 Calculadora de ROI
             </span>
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
-              Descubra quanto você
-              <span className="block bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">
-                pode ganhar
-              </span>
+              Descubra quanto você <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-amber-400">pode ganhar</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Calcule o retorno real do investimento no nosso APP para sua barbearia. 
-              Os números não mentem!
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Calcule o retorno do investimento do nosso sistema para sua barbearia
             </p>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Calculator Inputs */}
+        {/* Calculator Inputs */}
+        <div className="grid lg:grid-cols-2 gap-12 mb-16">
+          {/* Input Controls */}
           <div className={`transform transition-all duration-1000 delay-300 ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
-            <Card className="bg-gray-800/50 border-gray-700 p-8 backdrop-blur-sm">
-              <div className="flex items-center mb-8">
-                <Calculator className="h-8 w-8 text-amber-400 mr-3" />
-                <h3 className="text-2xl font-bold text-white">Dados da Sua Barbearia</h3>
-              </div>
+            <Card className="relative bg-gradient-to-br from-gray-800/80 via-gray-900/80 to-black/80 border-gray-700/50 p-8 backdrop-blur-sm shadow-2xl shadow-gray-900/50 overflow-hidden">
+              {/* Decorative background elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-purple-600/20 rounded-full blur-2xl"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-green-500/20 to-blue-500/20 rounded-full blur-xl"></div>
+              
+              <div className="relative z-10">
+                <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
+                  <Calculator className="h-8 w-8 text-amber-400 mr-3" />
+                  Dados da sua Barbearia
+                </h3>
 
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
-                    Clientes por dia
-                  </label>
-                  <input
-                    type="range"
-                    min="5"
-                    max="50"
-                    value={inputs.dailyClients}
-                    onChange={(e) => handleInputChange('dailyClients', parseInt(e.target.value))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                  />
-                  <div className="flex justify-between text-sm text-gray-400 mt-1">
-                    <span>5</span>
-                    <span className="text-amber-400 font-bold">{inputs.dailyClients}</span>
-                    <span>50</span>
+                <div className="space-y-8">
+                  <div>
+                    <label className="block text-white font-semibold mb-4">
+                      Clientes por dia: <span className="text-amber-400">{inputs.dailyClients}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="5"
+                      max="50"
+                      value={inputs.dailyClients}
+                      onChange={(e) => handleInputChange('dailyClients', parseInt(e.target.value))}
+                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-sm text-gray-400 mt-2">
+                      <span>5</span>
+                      <span>50</span>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
-                    Ticket médio (R$)
-                  </label>
-                  <input
-                    type="range"
-                    min="20"
-                    max="100"
-                    value={inputs.averageTicket}
-                    onChange={(e) => handleInputChange('averageTicket', parseInt(e.target.value))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                  />
-                  <div className="flex justify-between text-sm text-gray-400 mt-1">
-                    <span>R$ 20</span>
-                    <span className="text-amber-400 font-bold">R$ {inputs.averageTicket}</span>
-                    <span>R$ 100</span>
+                  <div>
+                    <label className="block text-white font-semibold mb-4">
+                      Ticket médio: <span className="text-amber-400">R$ {inputs.averageTicket}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="20"
+                      max="100"
+                      value={inputs.averageTicket}
+                      onChange={(e) => handleInputChange('averageTicket', parseInt(e.target.value))}
+                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-sm text-gray-400 mt-2">
+                      <span>R$ 20</span>
+                      <span>R$ 100</span>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
-                    Dias trabalhados/mês
-                  </label>
-                  <input
-                    type="range"
-                    min="20"
-                    max="30"
-                    value={inputs.workingDays}
-                    onChange={(e) => handleInputChange('workingDays', parseInt(e.target.value))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                  />
-                  <div className="flex justify-between text-sm text-gray-400 mt-1">
-                    <span>20</span>
-                    <span className="text-amber-400 font-bold">{inputs.workingDays}</span>
-                    <span>30</span>
+                  <div>
+                    <label className="block text-white font-semibold mb-4">
+                      Dias trabalhados/mês: <span className="text-amber-400">{inputs.workingDays}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="20"
+                      max="30"
+                      value={inputs.workingDays}
+                      onChange={(e) => handleInputChange('workingDays', parseInt(e.target.value))}
+                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-sm text-gray-400 mt-2">
+                      <span>20</span>
+                      <span>30</span>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
-                    Taxa de no-show (%)
-                  </label>
-                  <input
-                    type="range"
-                    min="10"
-                    max="50"
-                    value={inputs.noShowRate}
-                    onChange={(e) => handleInputChange('noShowRate', parseInt(e.target.value))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                  />
-                  <div className="flex justify-between text-sm text-gray-400 mt-1">
-                    <span>10%</span>
-                    <span className="text-amber-400 font-bold">{inputs.noShowRate}%</span>
-                    <span>50%</span>
+                  <div>
+                    <label className="block text-white font-semibold mb-4">
+                      Taxa de no-show: <span className="text-red-400">{inputs.noShowRate}%</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="10"
+                      max="50"
+                      value={inputs.noShowRate}
+                      onChange={(e) => handleInputChange('noShowRate', parseInt(e.target.value))}
+                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-sm text-gray-400 mt-2">
+                      <span>10%</span>
+                      <span className="text-amber-400 font-bold">{inputs.noShowRate}%</span>
+                      <span>50%</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -210,72 +214,92 @@ const ROICalculatorSection = () => {
           <div className={`transform transition-all duration-1000 delay-500 ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
-            <Card className="bg-gradient-to-br from-green-500/10 to-emerald-600/10 border-green-500/30 p-8 backdrop-blur-sm">
-              <div className="flex items-center mb-8">
-                <TrendingUp className="h-8 w-8 text-green-400 mr-3" />
-                <h3 className="text-2xl font-bold text-white">Seus Resultados</h3>
-              </div>
+            <Card className="relative bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-teal-600/20 border-green-400/50 p-8 backdrop-blur-sm shadow-2xl shadow-green-500/20 overflow-hidden">
+              {/* Decorative background elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/30 to-emerald-500/30 rounded-full blur-2xl"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-teal-400/30 to-green-500/30 rounded-full blur-xl"></div>
+              
+              <div className="relative z-10">
+                <h3 className="text-3xl font-bold text-white mb-8 text-center">
+                  🎯 Seus Resultados
+                </h3>
 
-              <div className="space-y-6">
-                {/* Current vs Potential */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-red-500/10 rounded-xl border border-red-500/30">
-                    <div className="text-red-400 text-sm font-medium mb-1">Receita Atual</div>
-                    <div className="text-2xl font-bold text-white">
-                      {formatCurrency(results.currentRevenue)}
+                <div className="grid grid-cols-2 gap-6 mb-8">
+                  <Card className="relative bg-gradient-to-br from-blue-500/20 via-indigo-500/15 to-purple-600/20 border-blue-400/50 p-6 backdrop-blur-sm shadow-xl shadow-blue-500/20 overflow-hidden">
+                    {/* Decorative background elements */}
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400/40 to-indigo-500/40 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-purple-400/40 to-blue-500/40 rounded-full blur-lg"></div>
+                    
+                    <div className="relative z-10">
+                      <div className="text-center">
+                        <DollarSign className="h-8 w-8 text-blue-400 mx-auto mb-3" />
+                        <p className="text-sm text-gray-300 mb-2">Receita Atual</p>
+                        <p className="text-xl font-bold text-white">{formatCurrency(results.currentRevenue)}</p>
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-400">por mês</div>
-                  </div>
-                  <div className="text-center p-4 bg-green-500/10 rounded-xl border border-green-500/30">
-                    <div className="text-green-400 text-sm font-medium mb-1">Com o APP</div>
-                    <div className="text-2xl font-bold text-white">
-                      {formatCurrency(results.potentialRevenue)}
+                  </Card>
+
+                  <Card className="relative bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-red-600/20 border-purple-400/50 p-6 backdrop-blur-sm shadow-xl shadow-purple-500/20 overflow-hidden">
+                    {/* Decorative background elements */}
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-400/40 to-pink-500/40 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-red-400/40 to-purple-500/40 rounded-full blur-lg"></div>
+                    
+                    <div className="relative z-10">
+                      <div className="text-center">
+                        <TrendingUp className="h-8 w-8 text-purple-400 mx-auto mb-3" />
+                        <p className="text-sm text-gray-300 mb-2">Com o Sistema</p>
+                        <p className="text-xl font-bold text-white">{formatCurrency(results.potentialRevenue)}</p>
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-400">por mês</div>
-                  </div>
+                  </Card>
+
+                  <Card className="relative bg-gradient-to-br from-amber-500/20 via-orange-500/15 to-red-600/20 border-amber-400/50 p-6 backdrop-blur-sm shadow-xl shadow-amber-500/20 overflow-hidden">
+                    {/* Decorative background elements */}
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-amber-400/40 to-orange-500/40 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-red-400/40 to-amber-500/40 rounded-full blur-lg"></div>
+                    
+                    <div className="relative z-10">
+                      <div className="text-center">
+                        <Zap className="h-8 w-8 text-amber-400 mx-auto mb-3" />
+                        <p className="text-sm text-gray-300 mb-2">Ganho Mensal</p>
+                        <p className="text-xl font-bold text-amber-400">{formatCurrency(results.monthlyGain)}</p>
+                      </div>
+                    </div>
+                  </Card>
+
+                  <Card className="relative bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-teal-600/20 border-green-400/50 p-6 backdrop-blur-sm shadow-xl shadow-green-500/20 overflow-hidden">
+                    {/* Decorative background elements */}
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-400/40 to-emerald-500/40 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-teal-400/40 to-green-500/40 rounded-full blur-lg"></div>
+                    
+                    <div className="relative z-10">
+                      <div className="text-center">
+                        <TrendingUp className="h-8 w-8 text-green-400 mx-auto mb-3" />
+                        <p className="text-sm text-gray-300 mb-2">ROI Anual</p>
+                        <p className="text-xl font-bold text-green-400">{results.roi.toFixed(0)}%</p>
+                      </div>
+                    </div>
+                  </Card>
                 </div>
 
-                {/* Monthly Gain */}
-                <div className="text-center p-6 bg-amber-500/10 rounded-xl border border-amber-500/30">
-                  <div className="flex items-center justify-center mb-2">
-                    <DollarSign className="h-6 w-6 text-amber-400 mr-2" />
-                    <span className="text-amber-400 text-lg font-medium">Ganho Mensal</span>
-                  </div>
-                  <div className="text-4xl font-bold text-white mb-2">
-                    {formatCurrency(results.monthlyGain)}
-                  </div>
-                  <div className="text-sm text-gray-400">
-                    +{((results.monthlyGain / results.currentRevenue) * 100).toFixed(0)}% de aumento
-                  </div>
-                </div>
-
-                {/* ROI */}
-                <div className="text-center p-6 bg-purple-500/10 rounded-xl border border-purple-500/30">
-                  <div className="flex items-center justify-center mb-2">
-                    <Zap className="h-6 w-6 text-purple-400 mr-2" />
-                    <span className="text-purple-400 text-lg font-medium">ROI Anual</span>
-                  </div>
-                  <div className="text-4xl font-bold text-white mb-2">
-                    {results.roi.toFixed(0)}%
-                  </div>
-                  <div className="text-sm text-gray-400">
-                    Retorno: {formatCurrency(results.yearlyGain)}
-                  </div>
-                </div>
-
-                {/* Benefits */}
-                <div className="space-y-3">
-                  <div className="flex items-center text-green-400">
-                    <Clock className="h-5 w-5 mr-3" />
-                    <span className="text-sm">Agendamentos 24/7 automáticos</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <Users className="h-5 w-5 mr-3" />
-                    <span className="text-sm">90% menos no-shows</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <TrendingUp className="h-5 w-5 mr-3" />
-                    <span className="text-sm">+40% mais clientes</span>
+                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6 mb-6">
+                  <h4 className="text-lg font-bold text-white mb-4 flex items-center">
+                    <Users className="h-5 w-5 text-green-400 mr-2" />
+                    Benefícios Inclusos:
+                  </h4>
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="flex items-center text-green-400">
+                      <Clock className="h-5 w-5 mr-3" />
+                      <span className="text-sm">Agendamentos 24/7 automáticos</span>
+                    </div>
+                    <div className="flex items-center text-green-400">
+                      <TrendingUp className="h-5 w-5 mr-3" />
+                      <span className="text-sm">90% menos no-shows</span>
+                    </div>
+                    <div className="flex items-center text-green-400">
+                      <TrendingUp className="h-5 w-5 mr-3" />
+                      <span className="text-sm">+40% mais clientes</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -310,15 +334,6 @@ const ROICalculatorSection = () => {
       <style>{`
         .slider::-webkit-slider-thumb {
           appearance: none;
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #f59e0b;
-          cursor: pointer;
-          box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-        }
-        
-        .slider::-moz-range-thumb {
           height: 20px;
           width: 20px;
           border-radius: 50%;

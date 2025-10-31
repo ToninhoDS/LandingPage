@@ -125,9 +125,39 @@ const B2BTestimonialsSection = () => {
   ];
 
   return (
-    <section id="b2b-testimonials" className="py-24 bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNkNGFmMzciIGZpbGwtb3BhY2l0eT0iMC4wMiI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iNCIvPjwvZz48L2c+PC9zdmc+')] opacity-50"></div>
+    <section id="b2b-testimonials" className="py-24 relative overflow-hidden">
+      {/* Enhanced Background with Multiple Layers */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-gray-900 to-black"></div>
+      
+      {/* Animated gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-transparent to-amber-600/5 animate-pulse"></div>
+      
+      {/* Geometric pattern overlay */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDYwIDAgTCAwIDAgMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDRhZjM3IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] bg-repeat"></div>
+      </div>
+      
+      {/* Floating elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Large floating orbs */}
+        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-amber-400/10 to-amber-600/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-blue-400/8 to-purple-600/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-green-400/6 to-emerald-600/4 rounded-full blur-3xl animate-pulse delay-500"></div>
+        
+        {/* Smaller accent orbs */}
+        <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-amber-400/15 rounded-full blur-2xl animate-bounce"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-24 h-24 bg-blue-400/20 rounded-full blur-xl animate-bounce delay-700"></div>
+        
+        {/* Geometric shapes */}
+        <div className="absolute top-16 right-16 w-16 h-16 border border-amber-400/20 rotate-45 animate-spin-slow"></div>
+        <div className="absolute bottom-16 left-16 w-12 h-12 border border-blue-400/20 rotate-12 animate-pulse"></div>
+      </div>
+      
+      {/* Radial gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-gray-900/20 to-black/40"></div>
+      
+      {/* Noise texture overlay */}
+      <div className="absolute inset-0 opacity-20 mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iNCIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNub2lzZSkiIG9wYWNpdHk9IjAuNCIvPjwvc3ZnPg==')]"></div>
       
       <div className="container mx-auto max-w-7xl px-6 relative z-10">
         {/* Header */}
@@ -157,12 +187,20 @@ const B2BTestimonialsSection = () => {
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           {stats.map((stat, index) => (
-            <Card key={index} className="bg-gray-800/50 border-gray-700 p-6 text-center backdrop-blur-sm">
-              <stat.icon className={`h-8 w-8 mx-auto mb-3 ${stat.color}`} />
-              <div className={`text-3xl font-bold mb-2 ${stat.color}`}>
-                {stat.value}
+            <Card key={index} className="relative bg-gradient-to-br from-gray-800/70 to-gray-900/80 border border-gray-600/50 p-6 text-center backdrop-blur-lg hover:border-amber-400/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-amber-500/10 group overflow-hidden">
+              {/* Background glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Animated border */}
+              <div className="absolute inset-0 border border-amber-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+              
+              <div className="relative z-10">
+                <stat.icon className={`h-8 w-8 mx-auto mb-3 ${stat.color} group-hover:scale-110 transition-transform duration-300`} />
+                <div className={`text-3xl font-bold mb-2 ${stat.color} group-hover:text-amber-400 transition-colors duration-300`}>
+                  {stat.value}
+                </div>
+                <div className="text-gray-300 text-sm group-hover:text-white transition-colors duration-300">{stat.label}</div>
               </div>
-              <div className="text-gray-300 text-sm">{stat.label}</div>
             </Card>
           ))}
         </div>
@@ -171,7 +209,17 @@ const B2BTestimonialsSection = () => {
         <div className={`transform transition-all duration-1000 delay-500 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
-          <Card className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-gray-700 p-8 lg:p-12 backdrop-blur-sm">
+          <Card className="relative bg-gradient-to-br from-gray-800/60 via-gray-900/70 to-black/80 border border-amber-400/20 p-8 lg:p-12 backdrop-blur-xl shadow-2xl shadow-amber-500/10 hover:shadow-amber-500/20 transition-all duration-500 hover:border-amber-400/40 group">
+            {/* Card inner glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 via-transparent to-amber-600/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Decorative corner elements */}
+            <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-amber-400/30 rounded-tl-lg"></div>
+            <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-amber-400/30 rounded-tr-lg"></div>
+            <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-amber-400/30 rounded-bl-lg"></div>
+            <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-amber-400/30 rounded-br-lg"></div>
+            
+            <div className="relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Testimonial Content */}
               <div>
@@ -246,6 +294,7 @@ const B2BTestimonialsSection = () => {
                 </div>
               </div>
             </div>
+            </div>
           </Card>
         </div>
 
@@ -273,7 +322,11 @@ const B2BTestimonialsSection = () => {
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           {testimonials.slice(0, 3).map((testimonial, index) => (
-            <Card key={index} className="bg-gray-800/30 border-gray-700 p-6 backdrop-blur-sm">
+            <Card key={index} className="relative bg-gradient-to-br from-gray-800/60 to-gray-900/70 border border-gray-600/40 p-6 backdrop-blur-lg hover:border-amber-400/30 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/10 group overflow-hidden">
+              {/* Background glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="relative z-10">
               <div className="flex items-center mb-4">
                 <img 
                   src={testimonial.image}
@@ -299,6 +352,7 @@ const B2BTestimonialsSection = () => {
               <div className="mt-4 text-green-400 font-bold text-sm">
                 {testimonial.results.revenue} de aumento
               </div>
+              </div>
             </Card>
           ))}
         </div>
@@ -307,7 +361,14 @@ const B2BTestimonialsSection = () => {
         <div className={`text-center mt-16 transform transition-all duration-1000 delay-1100 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
-          <div className="bg-gradient-to-r from-amber-400/10 to-amber-600/10 border border-amber-400/30 rounded-2xl p-8 backdrop-blur-sm">
+          <div className="relative bg-gradient-to-r from-amber-400/15 via-amber-500/10 to-amber-600/15 border border-amber-400/40 rounded-2xl p-8 backdrop-blur-lg shadow-2xl shadow-amber-500/20 hover:shadow-amber-500/30 transition-all duration-500 group overflow-hidden">
+            {/* Enhanced background effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 via-transparent to-amber-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Animated border glow */}
+            <div className="absolute inset-0 border-2 border-amber-400/30 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+            
+            <div className="relative z-10">
             <h3 className="text-3xl font-bold text-white mb-4">
               Seja o Próximo <span className="text-amber-400">Caso de Sucesso</span>
             </h3>
@@ -316,6 +377,7 @@ const B2BTestimonialsSection = () => {
             </p>
             <div className="text-amber-400 text-lg font-bold mb-6">
               Média de aumento: +45% de receita em 90 dias
+            </div>
             </div>
           </div>
         </div>

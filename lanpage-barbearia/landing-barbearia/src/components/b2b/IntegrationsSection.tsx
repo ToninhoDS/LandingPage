@@ -373,8 +373,7 @@ const IntegrationsSection = () => {
               </Button>
               <Button 
                 size="lg" 
-                variant="outline"
-                className="border-gray-600 text-white hover:bg-gray-800 px-8 py-4 text-lg"
+                className="border-2 border-blue-400 text-blue-400 bg-transparent hover:bg-blue-400 hover:text-black px-8 py-4 text-lg transition-all duration-300"
               >
                 Ver Demonstração
               </Button>

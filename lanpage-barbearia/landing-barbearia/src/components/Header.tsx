@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Scissors, Calendar, Star, Sparkles, Wand2, MessageSquare, User } from 'lucide-react';
+import { Scissors, Star, Sparkles, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Header = () => {
@@ -43,38 +43,6 @@ const Header = () => {
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <button 
-              onClick={() => scrollToSection('app-download')}
-              className="text-white hover:text-amber-400 transition-all duration-300 relative group font-medium text-lg"
-            >
-              <div className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5" />
-                <span>Baixar App</span>
-              </div>
-              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-            </button>
-            
-            <button 
-              onClick={() => scrollToSection('ai-styles-section')}
-              className="text-white hover:text-amber-400 transition-all duration-300 relative group font-medium text-lg"
-            >
-              <div className="flex items-center space-x-2">
-                <Wand2 className="h-5 w-5" />
-                <span>Estilos IA</span>
-              </div>
-              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-            </button>
-            
-            <button 
-              onClick={() => scrollToSection('reviews-section')}
-              className="text-white hover:text-amber-400 transition-all duration-300 relative group font-medium text-lg"
-            >
-              <div className="flex items-center space-x-2">
-                <MessageSquare className="h-5 w-5" />
-                <span>Avaliações</span>
-              </div>
-              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-            </button>
           </nav>
 
           <div className="flex items-center space-x-4">

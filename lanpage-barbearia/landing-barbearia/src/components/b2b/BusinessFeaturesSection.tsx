@@ -301,8 +301,7 @@ const BusinessFeaturesSection = () => {
               </Button>
               <Button 
                 size="lg" 
-                variant="outline"
-                className="border-gray-600 text-white hover:bg-gray-800 px-8 py-4 text-lg"
+                className="border-2 border-amber-400 text-amber-400 bg-transparent hover:bg-amber-400 hover:text-black px-8 py-4 text-lg transition-all duration-300"
               >
                 Ver Demonstração
               </Button>
