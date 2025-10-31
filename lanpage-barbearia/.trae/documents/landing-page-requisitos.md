@@ -2,9 +2,9 @@
 
 ## 1. Product Overview
 
-Landing page promocional e institucional para barbearias que serve como vitrine digital dos serviços oferecidos. A página tem como objetivo principal converter visitantes em clientes através de uma apresentação atrativa dos trabalhos realizados, facilitar o primeiro contato via WhatsApp e direcionar para o download do app PWA de agendamentos.
+Landing page de conversão e marketing para promover o aplicativo PWA da barbearia. A página tem como objetivo principal **converter visitantes em usuários do app** através da demonstração dos benefícios, funcionalidades e experiências proporcionadas pelo aplicativo. Não realiza agendamentos diretos - apenas promove e direciona para o download do app.
 
-A landing page resolve o problema de visibilidade online da barbearia e oferece um canal de conversão otimizado para atrair novos clientes e apresentar a qualidade dos serviços.
+A landing page resolve o problema de aquisição de usuários para o app, servindo como ferramenta de marketing digital para demonstrar o valor do aplicativo e converter visitantes em usuários ativos da plataforma de agendamento.
 
 ## 2. Core Features
 
@@ -17,64 +17,68 @@ A landing page resolve o problema de visibilidade online da barbearia e oferece 
 
 ### 2.2 Feature Module
 
-Nossa landing page consiste nas seguintes seções principais:
+Nossa landing page de conversão consiste nas seguintes seções principais:
 
-1. **Hero Section**: apresentação impactante da barbearia, call-to-action principal, navegação
-2. **Sobre Nós**: história da barbearia, diferenciais, equipe de profissionais
-3. **Serviços**: catálogo completo de serviços oferecidos com preços e descrições
-4. **Galeria**: portfólio visual dos trabalhos realizados, antes e depois
-5. **Depoimentos**: avaliações e comentários de clientes satisfeitos
-6. **Localização**: mapa interativo, endereço, horários de funcionamento
-7. **Contato**: formulário de contato, integração WhatsApp, redes sociais
-8. **Footer**: informações complementares, links úteis, políticas
+1. **Hero Section**: apresentação do app, benefícios principais, call-to-action para download
+2. **Demonstração do App**: screenshots, vídeo demonstrativo, funcionalidades principais
+3. **Benefícios do App**: vantagens de usar o aplicativo, comparação com métodos tradicionais
+4. **Depoimentos de Usuários**: avaliações reais de usuários do app, casos de sucesso
+5. **Funcionalidades**: detalhamento das principais features do aplicativo
+6. **Download/Instalação**: botões de download, QR code, instruções de instalação
+7. **FAQ sobre o App**: dúvidas frequentes sobre o uso do aplicativo
+8. **Footer**: links para o app, suporte, políticas de privacidade
 
 ### 2.3 Page Details
 
 | Page Name | Module Name | Feature description |
 |-----------|-------------|---------------------|
-| Landing Page | Hero Section | Exibir vídeo/imagem de fundo, título impactante, botão "Agendar Agora", menu de navegação |
-| Landing Page | Sobre Nós | Apresentar história da barbearia, missão e valores, fotos da equipe |
-| Landing Page | Serviços | Listar serviços em cards, mostrar preços, duração, descrições detalhadas |
-| Landing Page | Galeria | Exibir grid de fotos, filtros por categoria, lightbox para visualização ampliada |
-| Landing Page | Depoimentos | Carousel de avaliações, fotos dos clientes, sistema de estrelas |
-| Landing Page | Localização | Integrar Google Maps, mostrar endereço, horários, informações de contato |
-| Landing Page | Formulário Contato | Capturar nome, telefone, serviço de interesse, integração WhatsApp |
-| Landing Page | Call-to-Actions | Botões estratégicos para WhatsApp, download do app, agendamento |
-| Landing Page | SEO Otimização | Meta tags, structured data, sitemap, otimização para buscadores |
-| Landing Page | Analytics | Integração Google Analytics, Facebook Pixel, tracking de conversões |
+| Landing Page | Hero Section | Apresentar benefícios do app, título impactante "Baixe nosso App", botão de download principal |
+| Landing Page | Demonstração App | Exibir screenshots do app, vídeo demonstrativo, tour pelas funcionalidades |
+| Landing Page | Benefícios App | Listar vantagens do app: agendamento 24h, notificações, histórico, facilidade |
+| Landing Page | Depoimentos Usuários | Carousel com avaliações reais de usuários do app, experiências de uso |
+| Landing Page | Funcionalidades | Destacar features principais: agendamento, pagamento, chat, notificações |
+| Landing Page | Download/Instalação | Botões para download, QR code, badges das stores, instruções de instalação |
+| Landing Page | FAQ App | Perguntas frequentes sobre o uso do aplicativo, suporte, funcionalidades |
+| Landing Page | Call-to-Actions | Botões estratégicos para download do app distribuídos pela página |
+| Landing Page | SEO Otimização | Meta tags focadas no app, structured data, otimização para "app barbearia" |
+| Landing Page | Analytics | Tracking de conversões para download, funil de conversão, métricas de app |
 
 ## 3. Core Process
 
-**Fluxo do Visitante:**
-1. Visitante acessa a landing page via busca ou redes sociais
-2. Visualiza hero section com proposta de valor clara
-3. Navega pelos serviços oferecidos e galeria de trabalhos
-4. Lê depoimentos de outros clientes
-5. Decide fazer contato via WhatsApp ou formulário
-6. É direcionado para download do app PWA
-7. Torna-se cliente da barbearia
+**Fluxo de Conversão para o App:**
+1. Visitante acessa a landing page via busca, redes sociais ou anúncios
+2. Visualiza hero section com benefícios do app e call-to-action principal
+3. Assiste demonstração do app através de screenshots e vídeo
+4. Lê sobre os benefícios e vantagens de usar o aplicativo
+5. Visualiza depoimentos reais de usuários satisfeitos com o app
+6. Entende as funcionalidades principais do aplicativo
+7. Clica em botão de download ou escaneia QR code
+8. Baixa e instala o app PWA
+9. Torna-se usuário ativo do aplicativo
 
-**Fluxo de Conversão:**
-1. Visitante interessado clica em call-to-action
-2. Preenche formulário com dados básicos
-3. É redirecionado para WhatsApp com mensagem pré-formatada
-4. Recebe link para download do app
-5. Agenda primeiro atendimento
-6. Vira cliente recorrente
+**Fluxo de Aquisição de Usuário:**
+1. Visitante interessado no app clica em call-to-action
+2. É direcionado para instalação do PWA ou store
+3. Instala o aplicativo no dispositivo
+4. Abre o app e cria sua conta
+5. Explora as funcionalidades do app
+6. Realiza primeiro agendamento através do app
+7. Torna-se cliente recorrente da barbearia via app
 
 ```mermaid
 graph TD
-    A[Visitante] --> B[Hero Section]
-    B --> C[Navegação Serviços]
-    C --> D[Galeria Trabalhos]
-    D --> E[Depoimentos]
-    E --> F[Decisão Contato]
-    F --> G[WhatsApp]
-    F --> H[Formulário]
-    G --> I[App Download]
-    H --> I
-    I --> J[Primeiro Agendamento]
-    J --> K[Cliente Convertido]
+    A[Visitante] --> B[Hero Section App]
+    B --> C[Demonstração App]
+    C --> D[Benefícios App]
+    D --> E[Depoimentos Usuários]
+    E --> F[Funcionalidades App]
+    F --> G[Call-to-Action Download]
+    G --> H[Download/Instalação]
+    H --> I[App PWA Instalado]
+    I --> J[Registro no App]
+    J --> K[Primeiro Uso App]
+    K --> L[Usuário Ativo]
+    L --> M[Cliente Recorrente]
 ```
 
 ## 4. User Interface Design

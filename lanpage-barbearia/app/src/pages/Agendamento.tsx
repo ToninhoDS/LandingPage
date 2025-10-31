@@ -1,576 +1,508 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
+  ArrowLeft, 
+  ArrowRight, 
+  Check, 
   Calendar, 
   Clock, 
-  MapPin, 
+  User, 
   Scissors, 
-  Star,
-  ArrowLeft,
-  Check,
+  MapPin, 
+  CreditCard,
   MessageCircle,
-  CalendarPlus
-} from 'lucide-react';
-import { formatCurrency, formatDate, formatTime } from '@/lib/utils';
-import { toast } from 'sonner';
-import { useAuth } from '@/contexts/AuthContext';
-import { useIntegrations } from '@/hooks/useIntegrations';
+  Star
+} from 'lucide-react'
+import { toast } from 'sonner'
 
-// Mock data - será substituído por dados reais da API
-const mockBarbearias = [
-  {
-    id: 1,
-    nome: 'Barbearia Central',
-    endereco: 'Rua das Flores, 123 - Centro',
-    telefone: '(11) 99999-9999',
-    avaliacao: 4.8,
-    imagem: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20barbershop%20interior%20with%20vintage%20chairs%20and%20mirrors&image_size=square'
-  },
-  {
-    id: 2,
-    nome: 'Barbearia Premium',
-    endereco: 'Av. Principal, 456 - Jardins',
-    telefone: '(11) 88888-8888',
-    avaliacao: 4.9,
-    imagem: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=luxury%20barbershop%20with%20leather%20chairs%20and%20elegant%20decor&image_size=square'
-  }
-];
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Badge } from '@/components/ui/badge'
+import MobileCalendar from '@/components/mobile/MobileCalendar'
+import TimeSlotPicker from '@/components/mobile/TimeSlotPicker'
+import TouchButton from '@/components/mobile/TouchButton'
+import SwipeableCard from '@/components/mobile/SwipeableCard'
+import { cn } from '@/lib/utils'
 
-const mockServicos = [
-  {
-    id: 1,
-    nome: 'Corte Simples',
-    descricao: 'Corte tradicional masculino',
-    preco: 25.00,
-    duracao: 30
-  },
-  {
-    id: 2,
-    nome: 'Corte + Barba',
-    descricao: 'Corte completo com barba alinhada',
-    preco: 45.00,
-    duracao: 60
-  },
-  {
-    id: 3,
-    nome: 'Barba',
-    descricao: 'Apenas barba e bigode',
-    preco: 20.00,
-    duracao: 30
-  },
-  {
-    id: 4,
-    nome: 'Corte Premium',
-    descricao: 'Corte moderno com finalização',
-    preco: 35.00,
-    duracao: 45
-  }
-];
+// Mock data
+const barbeiros = [
+  { id: 1, nome: 'João Silva', especialidade: 'Corte Clássico', rating: 4.9, avatar: '👨‍🦲' },
+  { id: 2, nome: 'Pedro Santos', especialidade: 'Barba & Bigode', rating: 4.8, avatar: '🧔' },
+  { id: 3, nome: 'Carlos Lima', especialidade: 'Corte Moderno', rating: 4.7, avatar: '👨‍🦱' },
+]
 
-const mockBarbeiros = [
-  {
-    id: 1,
-    nome: 'João Silva',
-    especialidade: 'Cortes clássicos',
-    avaliacao: 4.9,
-    imagem: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20barber%20portrait%20smiling%20in%20uniform&image_size=square'
-  },
-  {
-    id: 2,
-    nome: 'Pedro Santos',
-    especialidade: 'Cortes modernos',
-    avaliacao: 4.8,
-    imagem: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=young%20professional%20barber%20with%20modern%20style&image_size=square'
-  },
-  {
-    id: 3,
-    nome: 'Carlos Lima',
-    especialidade: 'Barbas e bigodes',
-    avaliacao: 4.7,
-    imagem: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=experienced%20barber%20with%20beard%20specialist&image_size=square'
-  }
-];
+const servicos = [
+  { id: 1, nome: 'Corte Simples', preco: 25, duracao: 30, descricao: 'Corte básico com máquina e tesoura' },
+  { id: 2, nome: 'Corte + Barba', preco: 40, duracao: 45, descricao: 'Corte completo com barba alinhada' },
+  { id: 3, nome: 'Corte Premium', preco: 60, duracao: 60, descricao: 'Corte + barba + sobrancelha + hidratação' },
+  { id: 4, nome: 'Apenas Barba', preco: 20, duracao: 20, descricao: 'Barba alinhada e hidratada' },
+]
 
-// Gerar horários disponíveis
-const gerarHorariosDisponiveis = () => {
-  const horarios = [];
-  for (let hora = 8; hora <= 18; hora++) {
-    for (let minuto = 0; minuto < 60; minuto += 30) {
-      if (hora === 18 && minuto > 0) break; // Não incluir 18:30
-      const horarioStr = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
-      horarios.push(horarioStr);
-    }
-  }
-  return horarios;
-};
+const horarios = [
+  { time: '08:00', available: true, price: 25 },
+  { time: '08:30', available: true, price: 25 },
+  { time: '09:00', available: false },
+  { time: '09:30', available: true, price: 25 },
+  { time: '10:00', available: true, price: 25 },
+  { time: '10:30', available: false },
+  { time: '11:00', available: true, price: 25 },
+  { time: '11:30', available: true, price: 25 },
+  { time: '14:00', available: true, price: 30 },
+  { time: '14:30', available: true, price: 30 },
+  { time: '15:00', available: false },
+  { time: '15:30', available: true, price: 30 },
+  { time: '16:00', available: true, price: 30 },
+  { time: '16:30', available: true, price: 30 },
+  { time: '17:00', available: false },
+  { time: '17:30', available: true, price: 35 },
+  { time: '18:00', available: true, price: 35 },
+]
 
-// Gerar datas disponíveis (próximos 30 dias, excluindo domingos)
-const gerarDatasDisponiveis = () => {
-  const datas = [];
-  const hoje = new Date();
-  
-  for (let i = 1; i <= 30; i++) {
-    const data = new Date(hoje);
-    data.setDate(hoje.getDate() + i);
-    
-    // Pular domingos (0 = domingo)
-    if (data.getDay() !== 0) {
-      datas.push(data.toISOString().split('T')[0]);
-    }
-  }
-  
-  return datas;
-};
-
-type EtapaAgendamento = 'barbearia' | 'servico' | 'barbeiro' | 'data' | 'horario' | 'confirmacao';
+interface AgendamentoData {
+  barbeiro?: typeof barbeiros[0]
+  servicos: typeof servicos
+  data?: Date
+  horario?: string
+  observacoes?: string
+  pagamento?: 'dinheiro' | 'cartao' | 'pix'
+  contato?: string
+}
 
 export default function Agendamento() {
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const { 
-    whatsappStatus, 
-    calendarStatus, 
-    sendWhatsAppConfirmation,
-    createCalendarEvent,
-    processNewAppointment 
-  } = useIntegrations();
-  const [etapaAtual, setEtapaAtual] = useState<EtapaAgendamento>('barbearia');
-  const [agendamento, setAgendamento] = useState({
-    barbearia: null as any,
-    servico: null as any,
-    barbeiro: null as any,
-    data: '',
-    horario: ''
-  });
+  const navigate = useNavigate()
+  const [currentStep, setCurrentStep] = useState(1)
+  const [agendamento, setAgendamento] = useState<AgendamentoData>({
+    servicos: []
+  })
 
-  const horariosDisponiveis = gerarHorariosDisponiveis();
-  const datasDisponiveis = gerarDatasDisponiveis();
+  const totalSteps = 7
+  const progress = (currentStep / totalSteps) * 100
 
-  const proximaEtapa = () => {
-    const etapas: EtapaAgendamento[] = ['barbearia', 'servico', 'barbeiro', 'data', 'horario', 'confirmacao'];
-    const indiceAtual = etapas.indexOf(etapaAtual);
-    if (indiceAtual < etapas.length - 1) {
-      setEtapaAtual(etapas[indiceAtual + 1]);
+  const nextStep = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(prev => prev + 1)
     }
-  };
+  }
 
-  const etapaAnterior = () => {
-    const etapas: EtapaAgendamento[] = ['barbearia', 'servico', 'barbeiro', 'data', 'horario', 'confirmacao'];
-    const indiceAtual = etapas.indexOf(etapaAtual);
-    if (indiceAtual > 0) {
-      setEtapaAtual(etapas[indiceAtual - 1]);
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1)
     }
-  };
+  }
 
-  const confirmarAgendamento = async () => {
-    if (!user) {
-      toast.error('Você precisa estar logado para fazer um agendamento');
-      return;
+  const canProceed = () => {
+    switch (currentStep) {
+      case 1: return agendamento.servicos.length > 0
+      case 2: return agendamento.barbeiro !== undefined
+      case 3: return agendamento.data !== undefined
+      case 4: return agendamento.horario !== undefined
+      case 5: return true // Observações são opcionais
+      case 6: return agendamento.pagamento !== undefined
+      case 7: return agendamento.contato !== undefined
+      default: return false
     }
+  }
 
+  const handleServicoToggle = (servico: typeof servicos[0]) => {
+    setAgendamento(prev => ({
+      ...prev,
+      servicos: prev.servicos.find(s => s.id === servico.id)
+        ? prev.servicos.filter(s => s.id !== servico.id)
+        : [...prev.servicos, servico]
+    }))
+  }
+
+  const getTotalPreco = () => {
+    return agendamento.servicos.reduce((total, servico) => total + servico.preco, 0)
+  }
+
+  const getTotalDuracao = () => {
+    return agendamento.servicos.reduce((total, servico) => total + servico.duracao, 0)
+  }
+
+  const handleFinalizarAgendamento = async () => {
     try {
-      // Preparar dados do agendamento
-      const appointmentData = {
-        id: Date.now().toString(),
-        clientName: user.name || 'Cliente',
-        clientPhone: user.phone || '',
-        clientEmail: user.email || '',
-        service: agendamento.servico?.nome || '',
-        barber: agendamento.barbeiro?.nome || '',
-        date: agendamento.data || '',
-        time: agendamento.horario || '',
-        duration: agendamento.servico?.duracao || 60,
-        price: agendamento.servico?.preco || 0,
-        location: agendamento.barbearia?.endereco || '',
-        notes: ''
-      };
-
-      // Processar agendamento com integrações
-      await processNewAppointment(appointmentData);
+      // Simular API call
+      await new Promise(resolve => setTimeout(resolve, 2000))
       
-      toast.success('Agendamento confirmado com sucesso!', {
-        description: `${formatDate(agendamento.data)} às ${formatTime(agendamento.horario)}`
-      });
-      
-      // Redirecionar para o dashboard
-      navigate('/dashboard');
+      toast.success('Agendamento realizado com sucesso!')
+      navigate('/dashboard')
     } catch (error) {
-      console.error('Erro ao confirmar agendamento:', error);
-      toast.error('Erro ao confirmar agendamento. Tente novamente.');
+      toast.error('Erro ao realizar agendamento')
     }
-  };
+  }
 
-  const renderEtapaBarbearia = () => (
-    <div className="space-y-4">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">Escolha a Barbearia</h2>
-        <p className="text-gray-600">Selecione onde você gostaria de ser atendido</p>
-      </div>
-      
-      <div className="grid gap-4">
-        {mockBarbearias.map((barbearia) => (
-          <Card 
-            key={barbearia.id}
-            className={`cursor-pointer transition-all hover:shadow-md ${
-              agendamento.barbearia?.id === barbearia.id ? 'ring-2 ring-blue-500' : ''
-            }`}
-            onClick={() => {
-              setAgendamento(prev => ({ ...prev, barbearia }));
-              proximaEtapa();
-            }}
-          >
-            <CardContent className="p-4">
-              <div className="flex items-center gap-4">
-                <img 
-                  src={barbearia.imagem} 
-                  alt={barbearia.nome}
-                  className="w-16 h-16 rounded-lg object-cover"
-                />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">{barbearia.nome}</h3>
-                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
-                    <MapPin className="h-4 w-4" />
-                    {barbearia.endereco}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">{barbearia.avaliacao}</span>
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Scissors className="h-5 w-5 text-primary" />
+                <span>Escolha os Serviços</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {servicos.map(servico => (
+                <TouchButton
+                  key={servico.id}
+                  variant={agendamento.servicos.find(s => s.id === servico.id) ? "primary" : "outline"}
+                  fullWidth
+                  className="h-auto p-4 text-left"
+                  onClick={() => handleServicoToggle(servico)}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-semibold">{servico.nome}</span>
+                        {agendamento.servicos.find(s => s.id === servico.id) && (
+                          <Check className="h-4 w-4" />
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {servico.descricao}
+                      </p>
+                      <div className="flex items-center space-x-3 mt-2">
+                        <Badge variant="secondary">
+                          R$ {servico.preco}
+                        </Badge>
+                        <Badge variant="outline">
+                          {servico.duracao}min
+                        </Badge>
+                      </div>
                     </div>
-                    <span className="text-sm text-gray-500">•</span>
-                    <span className="text-sm text-gray-600">{barbearia.telefone}</span>
                   </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderEtapaServico = () => (
-    <div className="space-y-4">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">Escolha o Serviço</h2>
-        <p className="text-gray-600">Selecione o serviço desejado</p>
-      </div>
-      
-      <div className="grid gap-4">
-        {mockServicos.map((servico) => (
-          <Card 
-            key={servico.id}
-            className={`cursor-pointer transition-all hover:shadow-md ${
-              agendamento.servico?.id === servico.id ? 'ring-2 ring-blue-500' : ''
-            }`}
-            onClick={() => {
-              setAgendamento(prev => ({ ...prev, servico }));
-              proximaEtapa();
-            }}
-          >
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Scissors className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg">{servico.nome}</h3>
-                    <p className="text-sm text-gray-600">{servico.descricao}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Clock className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm text-gray-600">{servico.duracao} min</span>
+                </TouchButton>
+              ))}
+              
+              {agendamento.servicos.length > 0 && (
+                <div className="mt-4 p-3 bg-primary/10 rounded-lg">
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold">Total:</span>
+                    <div className="text-right">
+                      <div className="font-bold text-lg">R$ {getTotalPreco()}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {getTotalDuracao()} minutos
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-xl font-bold text-green-600">
-                    {formatCurrency(servico.preco)}
+              )}
+            </CardContent>
+          </Card>
+        )
+
+      case 2:
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <User className="h-5 w-5 text-primary" />
+                <span>Escolha o Barbeiro</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {barbeiros.map(barbeiro => (
+                <TouchButton
+                  key={barbeiro.id}
+                  variant={agendamento.barbeiro?.id === barbeiro.id ? "primary" : "outline"}
+                  fullWidth
+                  className="h-auto p-4 text-left"
+                  onClick={() => setAgendamento(prev => ({ ...prev, barbeiro }))}
+                >
+                  <div className="flex items-center space-x-3 w-full">
+                    <div className="text-2xl">{barbeiro.avatar}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-semibold">{barbeiro.nome}</span>
+                        {agendamento.barbeiro?.id === barbeiro.id && (
+                          <Check className="h-4 w-4" />
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {barbeiro.especialidade}
+                      </p>
+                      <div className="flex items-center space-x-1 mt-1">
+                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                        <span className="text-xs font-medium">{barbeiro.rating}</span>
+                      </div>
+                    </div>
+                  </div>
+                </TouchButton>
+              ))}
+            </CardContent>
+          </Card>
+        )
+
+      case 3:
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Calendar className="h-5 w-5 text-primary" />
+                <span>Escolha a Data</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <MobileCalendar
+                selectedDate={agendamento.data}
+                onDateSelect={(date) => setAgendamento(prev => ({ ...prev, data: date }))}
+                minDate={new Date()}
+                maxDate={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)} // 30 days from now
+              />
+            </CardContent>
+          </Card>
+        )
+
+      case 4:
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Clock className="h-5 w-5 text-primary" />
+                <span>Escolha o Horário</span>
+              </CardTitle>
+              {agendamento.data && (
+                <p className="text-sm text-muted-foreground">
+                  {agendamento.data.toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </p>
+              )}
+            </CardHeader>
+            <CardContent>
+              <TimeSlotPicker
+                timeSlots={horarios}
+                selectedTime={agendamento.horario}
+                onTimeSelect={(time) => setAgendamento(prev => ({ ...prev, horario: time }))}
+              />
+            </CardContent>
+          </Card>
+        )
+
+      case 5:
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <MessageCircle className="h-5 w-5 text-primary" />
+                <span>Observações (Opcional)</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Textarea
+                placeholder="Alguma observação especial? Ex: corte específico, alergia, etc."
+                value={agendamento.observacoes || ''}
+                onChange={(e) => setAgendamento(prev => ({ ...prev, observacoes: e.target.value }))}
+                rows={4}
+                className="resize-none"
+              />
+              
+              <div className="text-sm text-muted-foreground">
+                <p>💡 Dicas:</p>
+                <ul className="list-disc list-inside space-y-1 mt-2">
+                  <li>Mencione se tem alguma alergia</li>
+                  <li>Descreva o corte desejado</li>
+                  <li>Informe se é primeira vez na barbearia</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        )
+
+      case 6:
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <CreditCard className="h-5 w-5 text-primary" />
+                <span>Forma de Pagamento</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {[
+                { id: 'dinheiro', nome: 'Dinheiro', icon: '💵', descricao: 'Pagamento na barbearia' },
+                { id: 'cartao', nome: 'Cartão', icon: '💳', descricao: 'Débito ou crédito' },
+                { id: 'pix', nome: 'PIX', icon: '📱', descricao: 'Transferência instantânea' },
+              ].map(pagamento => (
+                <TouchButton
+                  key={pagamento.id}
+                  variant={agendamento.pagamento === pagamento.id ? "primary" : "outline"}
+                  fullWidth
+                  className="h-auto p-4 text-left"
+                  onClick={() => setAgendamento(prev => ({ ...prev, pagamento: pagamento.id as any }))}
+                >
+                  <div className="flex items-center space-x-3 w-full">
+                    <div className="text-2xl">{pagamento.icon}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-semibold">{pagamento.nome}</span>
+                        {agendamento.pagamento === pagamento.id && (
+                          <Check className="h-4 w-4" />
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {pagamento.descricao}
+                      </p>
+                    </div>
+                  </div>
+                </TouchButton>
+              ))}
+            </CardContent>
+          </Card>
+        )
+
+      case 7:
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <MessageCircle className="h-5 w-5 text-primary" />
+                <span>Contato para Confirmação</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Input
+                placeholder="WhatsApp para confirmação"
+                value={agendamento.contato || ''}
+                onChange={(e) => setAgendamento(prev => ({ ...prev, contato: e.target.value }))}
+                type="tel"
+              />
+              
+              {/* Resumo do agendamento */}
+              <div className="mt-6 p-4 bg-muted rounded-lg space-y-3">
+                <h3 className="font-semibold">Resumo do Agendamento</h3>
+                
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span>Barbeiro:</span>
+                    <span className="font-medium">{agendamento.barbeiro?.nome}</span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span>Data:</span>
+                    <span className="font-medium">
+                      {agendamento.data?.toLocaleDateString('pt-BR')}
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span>Horário:</span>
+                    <span className="font-medium">{agendamento.horario}</span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span>Serviços:</span>
+                    <span className="font-medium">
+                      {agendamento.servicos.map(s => s.nome).join(', ')}
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span>Duração:</span>
+                    <span className="font-medium">{getTotalDuracao()} min</span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span>Pagamento:</span>
+                    <span className="font-medium capitalize">{agendamento.pagamento}</span>
+                  </div>
+                  
+                  <div className="flex justify-between border-t pt-2">
+                    <span className="font-semibold">Total:</span>
+                    <span className="font-bold text-lg">R$ {getTotalPreco()}</span>
                   </div>
                 </div>
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
-    </div>
-  );
+        )
 
-  const renderEtapaBarbeiro = () => (
-    <div className="space-y-4">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">Escolha o Barbeiro</h2>
-        <p className="text-gray-600">Selecione o profissional de sua preferência</p>
-      </div>
-      
-      <div className="grid gap-4">
-        {mockBarbeiros.map((barbeiro) => (
-          <Card 
-            key={barbeiro.id}
-            className={`cursor-pointer transition-all hover:shadow-md ${
-              agendamento.barbeiro?.id === barbeiro.id ? 'ring-2 ring-blue-500' : ''
-            }`}
-            onClick={() => {
-              setAgendamento(prev => ({ ...prev, barbeiro }));
-              proximaEtapa();
-            }}
-          >
-            <CardContent className="p-4">
-              <div className="flex items-center gap-4">
-                <img 
-                  src={barbeiro.imagem} 
-                  alt={barbeiro.nome}
-                  className="w-16 h-16 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">{barbeiro.nome}</h3>
-                  <p className="text-sm text-gray-600 mb-1">{barbeiro.especialidade}</p>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm font-medium">{barbeiro.avaliacao}</span>
-                    <span className="text-sm text-gray-500 ml-1">avaliação</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderEtapaData = () => (
-    <div className="space-y-4">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">Escolha a Data</h2>
-        <p className="text-gray-600">Selecione o dia do seu agendamento</p>
-      </div>
-      
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {datasDisponiveis.slice(0, 12).map((data) => {
-          const dataObj = new Date(data + 'T00:00:00');
-          const isSelected = agendamento.data === data;
-          
-          return (
-            <Button
-              key={data}
-              variant={isSelected ? "default" : "outline"}
-              className={`h-auto p-3 flex flex-col items-center ${
-                isSelected ? 'ring-2 ring-blue-500' : ''
-              }`}
-              onClick={() => {
-                setAgendamento(prev => ({ ...prev, data }));
-                proximaEtapa();
-              }}
-            >
-              <div className="text-xs opacity-75">
-                {dataObj.toLocaleDateString('pt-BR', { weekday: 'short' }).toUpperCase()}
-              </div>
-              <div className="text-lg font-bold">
-                {dataObj.getDate()}
-              </div>
-              <div className="text-xs opacity-75">
-                {dataObj.toLocaleDateString('pt-BR', { month: 'short' }).toUpperCase()}
-              </div>
-            </Button>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-  const renderEtapaHorario = () => (
-    <div className="space-y-4">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">Escolha o Horário</h2>
-        <p className="text-gray-600">Selecione o horário disponível</p>
-      </div>
-      
-      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-        {horariosDisponiveis.map((horario) => {
-          const isSelected = agendamento.horario === horario;
-          // Simular alguns horários como indisponíveis
-          const isDisponivel = Math.random() > 0.3;
-          
-          return (
-            <Button
-              key={horario}
-              variant={isSelected ? "default" : "outline"}
-              disabled={!isDisponivel}
-              className={`h-12 ${
-                isSelected ? 'ring-2 ring-blue-500' : ''
-              } ${!isDisponivel ? 'opacity-50' : ''}`}
-              onClick={() => {
-                if (isDisponivel) {
-                  setAgendamento(prev => ({ ...prev, horario }));
-                  proximaEtapa();
-                }
-              }}
-            >
-              {formatTime(horario)}
-            </Button>
-          );
-        })}
-      </div>
-      
-      <div className="text-center text-sm text-gray-600 mt-4">
-        <p>Horários em cinza não estão disponíveis</p>
-      </div>
-    </div>
-  );
-
-  const renderEtapaConfirmacao = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">Confirmar Agendamento</h2>
-        <p className="text-gray-600">Revise os detalhes do seu agendamento</p>
-      </div>
-      
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Check className="h-5 w-5 text-green-600" />
-            Resumo do Agendamento
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label className="text-sm font-medium text-gray-600">Barbearia</Label>
-              <p className="font-semibold">{agendamento.barbearia?.nome}</p>
-              <p className="text-sm text-gray-600">{agendamento.barbearia?.endereco}</p>
-            </div>
-            
-            <div>
-              <Label className="text-sm font-medium text-gray-600">Serviço</Label>
-              <p className="font-semibold">{agendamento.servico?.nome}</p>
-              <p className="text-sm text-gray-600">{agendamento.servico?.descricao}</p>
-            </div>
-            
-            <div>
-              <Label className="text-sm font-medium text-gray-600">Barbeiro</Label>
-              <p className="font-semibold">{agendamento.barbeiro?.nome}</p>
-              <p className="text-sm text-gray-600">{agendamento.barbeiro?.especialidade}</p>
-            </div>
-            
-            <div>
-              <Label className="text-sm font-medium text-gray-600">Data e Horário</Label>
-              <p className="font-semibold">
-                {formatDate(agendamento.data)} às {formatTime(agendamento.horario)}
-              </p>
-              <p className="text-sm text-gray-600">Duração: {agendamento.servico?.duracao} min</p>
-            </div>
-          </div>
-          
-          <div className="border-t pt-4">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-lg font-semibold">Total:</span>
-              <span className="text-2xl font-bold text-green-600">
-                {formatCurrency(agendamento.servico?.preco || 0)}
-              </span>
-            </div>
-            
-            {/* Status das Integrações */}
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-600">Serviços Inclusos:</Label>
-              <div className="flex flex-wrap gap-2">
-                <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs ${
-                  whatsappStatus.isConnected ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
-                }`}>
-                  <MessageCircle className="h-3 w-3" />
-                  Confirmação WhatsApp
-                </div>
-                <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs ${
-                  calendarStatus.isConnected ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'
-                }`}>
-                  <CalendarPlus className="h-3 w-3" />
-                  Sincronização Calendário
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      
-      <div className="flex gap-3">
-        <Button variant="outline" onClick={etapaAnterior} className="flex-1">
-          Voltar
-        </Button>
-        <Button onClick={confirmarAgendamento} className="flex-1">
-          Confirmar Agendamento
-        </Button>
-      </div>
-    </div>
-  );
-
-  const renderEtapaAtual = () => {
-    switch (etapaAtual) {
-      case 'barbearia':
-        return renderEtapaBarbearia();
-      case 'servico':
-        return renderEtapaServico();
-      case 'barbeiro':
-        return renderEtapaBarbeiro();
-      case 'data':
-        return renderEtapaData();
-      case 'horario':
-        return renderEtapaHorario();
-      case 'confirmacao':
-        return renderEtapaConfirmacao();
       default:
-        return null;
+        return null
     }
-  };
-
-  const getProgressPercentage = () => {
-    const etapas = ['barbearia', 'servico', 'barbeiro', 'data', 'horario', 'confirmacao'];
-    const indiceAtual = etapas.indexOf(etapaAtual);
-    return ((indiceAtual + 1) / etapas.length) * 100;
-  };
+  }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="min-h-screen bg-background p-4 pb-20">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button 
-          variant="outline" 
-          size="icon"
-          onClick={() => navigate('/dashboard')}
+      <div className="flex items-center justify-between mb-6">
+        <TouchButton
+          variant="ghost"
+          size="sm"
+          onClick={() => currentStep === 1 ? navigate('/dashboard') : prevStep()}
         >
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold">Novo Agendamento</h1>
-          <p className="text-gray-600">Siga os passos para agendar seu serviço</p>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Voltar
+        </TouchButton>
+        
+        <div className="text-center">
+          <h1 className="text-lg font-semibold">Novo Agendamento</h1>
+          <p className="text-sm text-muted-foreground">
+            Etapa {currentStep} de {totalSteps}
+          </p>
+        </div>
+        
+        <div className="w-16" /> {/* Spacer */}
+      </div>
+
+      {/* Progress bar */}
+      <div className="mb-6">
+        <div className="w-full bg-muted rounded-full h-2">
+          <div 
+            className="bg-primary h-2 rounded-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
         </div>
       </div>
 
-      {/* Progress Bar */}
-      <div className="w-full bg-gray-200 rounded-full h-2">
-        <div 
-          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-          style={{ width: `${getProgressPercentage()}%` }}
-        />
+      {/* Step content */}
+      <div className="mb-6">
+        {renderStep()}
       </div>
 
-      {/* Etapa Atual */}
-      <Card>
-        <CardContent className="p-6">
-          {renderEtapaAtual()}
-        </CardContent>
-      </Card>
-
-      {/* Botões de Navegação */}
-      {etapaAtual !== 'barbearia' && etapaAtual !== 'confirmacao' && (
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={etapaAnterior} className="flex-1">
-            Voltar
-          </Button>
-        </div>
-      )}
+      {/* Navigation */}
+      <div className="fixed bottom-4 left-4 right-4 flex space-x-3">
+        {currentStep > 1 && (
+          <TouchButton
+            variant="outline"
+            onClick={prevStep}
+            className="flex-1"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Anterior
+          </TouchButton>
+        )}
+        
+        {currentStep < totalSteps ? (
+          <TouchButton
+            variant="primary"
+            onClick={nextStep}
+            disabled={!canProceed()}
+            className="flex-1"
+          >
+            Próximo
+            <ArrowRight className="h-4 w-4 ml-2" />
+          </TouchButton>
+        ) : (
+          <TouchButton
+            variant="primary"
+            onClick={handleFinalizarAgendamento}
+            disabled={!canProceed()}
+            className="flex-1"
+            loading={false}
+          >
+            <Check className="h-4 w-4 mr-2" />
+            Confirmar Agendamento
+          </TouchButton>
+        )}
+      </div>
     </div>
-  );
+  )
 }

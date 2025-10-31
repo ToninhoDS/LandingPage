@@ -1,7 +1,7 @@
 {
   "name": "Barbearia App - Agendamentos",
   "short_name": "Barbearia App",
-  "description": "Aplicativo para agendamento de serviços em barbearias",
+  "description": "Aplicativo completo para agendamento de serviços em barbearias com notificações push, chat e integração WhatsApp",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -9,7 +9,13 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "pt-BR",
-  "categories": ["lifestyle", "business"],
+  "categories": ["lifestyle", "business", "productivity"],
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "icons": [
     {
       "src": "/icons/icon-192x192.svg",
@@ -28,7 +34,7 @@
     {
       "name": "Novo Agendamento",
       "short_name": "Agendar",
-      "description": "Fazer um novo agendamento",
+      "description": "Fazer um novo agendamento rapidamente",
       "url": "/agendamento",
       "icons": [
         {
@@ -48,8 +54,62 @@
           "sizes": "96x96"
         }
       ]
+    },
+    {
+      "name": "Chat",
+      "short_name": "Chat",
+      "description": "Conversar com a barbearia",
+      "url": "/chat",
+      "icons": [
+        {
+          "src": "/icons/shortcut-chat.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Notificações",
+      "short_name": "Notificações",
+      "description": "Ver notificações recentes",
+      "url": "/notificacoes",
+      "icons": [
+        {
+          "src": "/icons/shortcut-notifications.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+barbearia",
+      "url": "/agendamento?action=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "text/calendar": [".ics"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": ["image/*", "text/calendar"]
+        }
+      ]
+    }
+  },
   "screenshots": [
     {
       "src": "/screenshots/desktop-1.png",

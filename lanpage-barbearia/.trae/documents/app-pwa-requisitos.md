@@ -2,9 +2,9 @@
 
 ## 1. Product Overview
 
-Aplicativo Progressive Web App (PWA) para clientes de barbearias que permite agendamento de serviços, gestão de perfil e comunicação direta com a barbearia. O app oferece experiência nativa com funcionalidades offline, notificações push e integração com Google Calendar e WhatsApp.
+**Aplicativo PWA principal** do sistema de barbearia onde estão concentradas **TODAS as funcionalidades reais** de agendamento, pagamento, comunicação e gestão. Este é o coração do sistema, oferecendo experiência completa para clientes com funcionalidades offline, notificações push, integração Google Calendar, WhatsApp Business API e processamento de pagamentos via Stripe.
 
-O app resolve problemas de agendamento por telefone, falta de lembretes e dificuldade de reagendamento. Destinado aos clientes da barbearia, oferece conveniência e autonomia para gerenciar seus agendamentos a qualquer momento.
+O app é a **plataforma central** onde os clientes realizam todas as ações: agendamento de serviços, pagamentos, comunicação com a barbearia, gestão de perfil e histórico. Resolve completamente os problemas de agendamento manual, oferecendo autonomia total aos clientes para gerenciar seus serviços 24/7.
 
 ## 2. Core Features
 

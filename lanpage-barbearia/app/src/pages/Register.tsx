@@ -48,7 +48,7 @@ export default function Register() {
         nome: data.nome,
         telefone: data.telefone,
         whatsapp: data.whatsapp || data.telefone,
-        role: 'cliente',
+        tipo_usuario: 'cliente',
       })
       
       if (error) {

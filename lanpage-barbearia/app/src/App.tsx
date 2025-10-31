@@ -17,6 +17,14 @@ import Perfil from '@/pages/Perfil';
 import Historico from '@/pages/Historico';
 import Notificacoes from '@/pages/Notificacoes';
 import Chat from '@/pages/Chat';
+import Configuracoes from '@/pages/Configuracoes';
+import Integracoes from '@/pages/Integracoes';
+import Share from '@/pages/Share';
+import Produtos from '@/pages/Produtos';
+import Proximos from '@/pages/Proximos';
+import Gestao from '@/pages/Gestao';
+import Relatorios from '@/pages/Relatorios';
+import Ganhos from '@/pages/Ganhos';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -66,6 +74,13 @@ export default function App() {
               <Route path="perfil" element={<Perfil />} />
               <Route path="notificacoes" element={<Notificacoes />} />
               <Route path="chat" element={<Chat />} />
+              <Route path="configuracoes" element={<Configuracoes />} />
+              <Route path="integracoes" element={<Integracoes />} />
+              <Route path="produtos" element={<Produtos />} />
+              <Route path="proximos" element={<Proximos />} />
+              <Route path="gestao" element={<Gestao />} />
+              <Route path="relatorios" element={<Relatorios />} />
+              <Route path="ganhos" element={<Ganhos />} />
             </Route>
             
             {/* Catch all route */}

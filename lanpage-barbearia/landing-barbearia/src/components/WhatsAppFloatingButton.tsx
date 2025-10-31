@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, X, Phone, Calendar, Info } from 'lucide-react';
+import { MessageCircle, X, Phone, Download, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import LeadCaptureModal from './LeadCaptureModal';
@@ -21,34 +21,34 @@ const WhatsAppFloatingButton = () => {
 
   const quickActions = [
     {
-      id: 'agendar',
-      icon: Calendar,
-      label: 'Agendar Horário',
-      color: 'bg-green-500 hover:bg-green-600',
+      id: 'app-info',
+      icon: Download,
+      label: 'Sobre o App',
+      color: 'bg-amber-500 hover:bg-amber-600',
       action: () => {
-        const message = encodeURIComponent('Olá! Gostaria de agendar um horário na barbearia. Podem me ajudar?');
+        const message = encodeURIComponent('Olá! Gostaria de saber mais sobre o app da barbearia. Como funciona o agendamento?');
         window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
         setIsExpanded(false);
       }
     },
     {
-      id: 'informacoes',
+      id: 'suporte',
       icon: Info,
-      label: 'Informações',
+      label: 'Suporte Técnico',
       color: 'bg-blue-500 hover:bg-blue-600',
       action: () => {
-        setLeadModalTrigger('general');
-        setShowLeadModal(true);
+        const message = encodeURIComponent('Olá! Preciso de ajuda com o app da barbearia. Podem me auxiliar?');
+        window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
         setIsExpanded(false);
       }
     },
     {
-      id: 'promocoes',
+      id: 'duvidas',
       icon: MessageCircle,
-      label: 'Promoções',
-      color: 'bg-amber-500 hover:bg-amber-600',
+      label: 'Dúvidas Gerais',
+      color: 'bg-green-500 hover:bg-green-600',
       action: () => {
-        setLeadModalTrigger('discount');
+        setLeadModalTrigger('general');
         setShowLeadModal(true);
         setIsExpanded(false);
       }
@@ -92,10 +92,10 @@ const WhatsAppFloatingButton = () => {
             ))}
             
             {/* Mensagem de boas-vindas */}
-            <Card className="p-4 bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg animate-slide-up">
+            <Card className="p-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg animate-slide-up">
               <div className="text-center">
-                <h4 className="font-bold mb-1">🔥 Barbearia Premium</h4>
-                <p className="text-sm opacity-90">Como podemos te ajudar hoje?</p>
+                <h4 className="font-bold mb-1">📱 App Barbearia</h4>
+                <p className="text-sm opacity-90">Precisa de ajuda com o app?</p>
               </div>
             </Card>
           </div>
@@ -137,8 +137,6 @@ const WhatsAppFloatingButton = () => {
         onClose={() => setShowLeadModal(false)}
         trigger={leadModalTrigger}
       />
-
-
     </>
   );
 };

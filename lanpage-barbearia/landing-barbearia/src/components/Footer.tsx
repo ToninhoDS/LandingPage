@@ -40,7 +40,7 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Links Rápidos</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Agendar Horário</a></li>
+              <li><a href="#app-download" className="text-gray-400 hover:text-amber-400 transition-colors">Baixar App</a></li>
               <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Estilos IA</a></li>
               <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Nossos Barbeiros</a></li>
               <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Avaliações</a></li>

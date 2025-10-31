@@ -200,7 +200,7 @@ export default function Perfil() {
                   <div>
                     <Label className="text-sm font-medium text-gray-600">Data de Nascimento</Label>
                     <p className="font-medium">
-                      {profile?.data_nascimento ? formatDate(profile.data_nascimento) : 'Não informado'}
+                      {profile?.data_nascimento ? new Date(profile.data_nascimento).toLocaleDateString('pt-BR') : 'Não informado'}
                     </p>
                   </div>
                 </div>

@@ -4,47 +4,53 @@
 
 ```mermaid
 graph TD
-    A[User Browser/PWA] --> B[React Frontend - Landing Page]
-    A --> C[React PWA - Cliente App]
-    A --> D[React Frontend - Admin Panel]
+    A[User Browser] --> B[React Landing Page - Conversão]
+    A --> C[React PWA App - Funcionalidades Completas]
+    A --> D[React Admin Panel]
     
-    B --> E[Express.js Backend]
-    C --> E
-    D --> E
+    B --> E[Static Hosting - Landing]
+    C --> F[Express.js Backend - App Core]
+    D --> F
     
-    E --> F[Supabase Database]
-    E --> G[Google Calendar API]
-    E --> H[WhatsApp Business API]
-    E --> I[Firebase Cloud Messaging]
-    E --> J[Stripe Payment Gateway]
-    E --> K[Redis Cache]
+    F --> G[Supabase Database]
+    F --> H[Google Calendar API]
+    F --> I[WhatsApp Business API]
+    F --> J[Firebase Cloud Messaging]
+    F --> K[Stripe Payment Gateway]
+    F --> L[Redis Cache]
 
-    subgraph "Frontend Layer"
+    subgraph "Marketing Layer"
         B
+        E
+    end
+
+    subgraph "Application Layer"
         C
         D
     end
 
     subgraph "Backend Layer"
-        E
-        K
+        F
+        L
     end
 
     subgraph "Database Layer"
-        F
+        G
     end
 
     subgraph "External Services"
-        G
         H
         I
         J
+        K
     end
 ```
 
 ## 2. Technology Description
 
-- **Frontend**: React@18 + TypeScript + Tailwind CSS + Vite + PWA
+- **Landing Page**: React@18 + TypeScript + Tailwind CSS + Vite (Static)
+- **App PWA**: React@18 + TypeScript + Tailwind CSS + Vite + Service Worker + Manifest
+- **Admin Panel**: React@18 + TypeScript + Tailwind CSS + Vite
 - **Backend**: Express.js@4 + TypeScript + Node.js@20
 - **Database**: Supabase (PostgreSQL) + Redis para cache
 - **Autenticação**: Supabase Auth + JWT
@@ -54,23 +60,37 @@ graph TD
 
 ## 3. Route definitions
 
+### 3.1 Landing Page (Conversão)
 | Route | Purpose |
 |-------|---------|
-| / | Landing page principal da barbearia |
-| /servicos | Página de serviços oferecidos |
-| /galeria | Galeria de trabalhos realizados |
-| /contato | Formulário de contato e localização |
-| /app | PWA - Dashboard do cliente |
-| /app/agendamento | PWA - Sistema de agendamento |
-| /app/perfil | PWA - Perfil e configurações do cliente |
-| /app/historico | PWA - Histórico de agendamentos |
+| / | Landing page de conversão para promover o app |
+| /#demo | Seção de demonstração do app |
+| /#beneficios | Seção de benefícios do app |
+| /#depoimentos | Seção de depoimentos de usuários |
+| /#download | Seção de download do app |
+
+### 3.2 App PWA (Funcionalidades Completas)
+| Route | Purpose |
+|-------|---------|
+| /app | PWA - Dashboard principal do cliente |
+| /app/login | PWA - Login e registro |
+| /app/agendamento | PWA - Sistema completo de agendamento |
+| /app/agendamentos | PWA - Gestão de agendamentos do cliente |
+| /app/perfil | PWA - Perfil e configurações |
+| /app/historico | PWA - Histórico completo de serviços |
+| /app/chat | PWA - Chat integrado com WhatsApp |
+| /app/notificacoes | PWA - Central de notificações |
+| /app/pagamentos | PWA - Gestão de pagamentos e faturas |
+
+### 3.3 Admin Panel
+| Route | Purpose |
+|-------|---------|
 | /admin | Painel administrativo - Dashboard |
-| /admin/agendamentos | Gestão de agendamentos |
+| /admin/agendamentos | Gestão completa de agendamentos |
+| /admin/clientes | Gestão de clientes e comunicação |
 | /admin/servicos | Gestão de serviços e preços |
-| /admin/clientes | Gestão de clientes |
-| /admin/financeiro | Controle financeiro e pagamentos |
-| /admin/configuracoes | Configurações do sistema |
-| /admin/relatorios | Relatórios e analytics |
+| /admin/financeiro | Controle financeiro e relatórios |
+| /admin/configuracoes | Configurações e integrações |
 
 ## 4. API definitions
 

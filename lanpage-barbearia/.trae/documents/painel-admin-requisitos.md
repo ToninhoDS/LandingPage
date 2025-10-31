@@ -2,9 +2,9 @@
 
 ## 1. Product Overview
 
-Sistema de gestão completo para proprietários e administradores de barbearias que centraliza o controle de agendamentos, clientes, serviços, financeiro e configurações. O painel oferece visão 360° do negócio com relatórios detalhados, integração com Google Calendar e WhatsApp, além de gestão de assinaturas e pagamentos.
+Sistema de gestão completo para proprietários e administradores de barbearias que centraliza o controle de agendamentos, clientes, serviços, financeiro e configurações **vindos do APP PWA**. O painel oferece visão 360° do negócio com relatórios detalhados, integração com Google Calendar e WhatsApp, além de gestão de assinaturas e pagamentos.
 
-O painel resolve problemas de gestão manual, falta de controle financeiro e dificuldade de acompanhar métricas do negócio. Destinado a proprietários, gerentes e barbeiros com permissões específicas.
+O painel resolve problemas de gestão manual, falta de controle financeiro e dificuldade de acompanhar métricas do negócio. Destinado a proprietários, gerentes e barbeiros com permissões específicas. **Todos os dados gerenciados aqui são originados das interações dos clientes no APP PWA principal.**
 
 ## 2. Core Features
 

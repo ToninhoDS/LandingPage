@@ -161,7 +161,7 @@ export default function Historico() {
           <div>
             <Label className="text-sm font-medium text-gray-600">Data e Horário</Label>
             <p className="font-medium">
-              {formatDate(agendamento.data)} às {formatTime(agendamento.hora)}
+              {new Date(agendamento.data).toLocaleDateString('pt-BR')} às {agendamento.hora}
             </p>
           </div>
           
@@ -370,10 +370,10 @@ export default function Historico() {
                   <div className="flex items-center gap-4">
                     <div className="text-center min-w-[80px]">
                       <div className="text-sm font-medium">
-                        {formatDate(agendamento.data).split(',')[0]}
+                        {new Date(agendamento.data).toLocaleDateString('pt-BR')}
                       </div>
                       <div className="text-xs text-gray-500">
-                        {formatTime(agendamento.hora)}
+                        {agendamento.hora}
                       </div>
                     </div>
                     

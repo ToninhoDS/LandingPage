@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { serviceWorkerManager } from '../utils/serviceWorker';
 
 interface PWAInstallPrompt extends Event {
   prompt(): Promise<void>;
@@ -12,6 +13,8 @@ export function usePWA() {
   const [isInstalled, setIsInstalled] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
+  const [swVersion, setSwVersion] = useState<string | null>(null);
+  const [cacheSize, setCacheSize] = useState<number>(0);
 
   useEffect(() => {
     // Check if app is already installed
@@ -50,16 +53,27 @@ export function usePWA() {
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
-    // Register service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('Service Worker registered:', registration);
-        })
-        .catch((error) => {
-          console.error('Service Worker registration failed:', error);
-        });
-    }
+    // Register service worker with advanced features
+    const initServiceWorker = async () => {
+      try {
+        const registration = await serviceWorkerManager.register('/sw.js');
+        if (registration) {
+          console.log('Advanced Service Worker registered:', registration);
+          
+          // Get service worker version
+          const version = await serviceWorkerManager.getVersion();
+          setSwVersion(version);
+          
+          // Get cache size
+          const size = await serviceWorkerManager.getCacheSize();
+          setCacheSize(size);
+        }
+      } catch (error) {
+        console.error('Service Worker registration failed:', error);
+      }
+    };
+
+    initServiceWorker();
 
     // Check notification permission
     if ('Notification' in window) {
@@ -96,30 +110,20 @@ export function usePWA() {
   };
 
   const requestNotificationPermission = async () => {
-    if (!('Notification' in window)) {
-      toast.error('Este navegador não suporta notificações');
-      return false;
-    }
-
     try {
-      const permission = await Notification.requestPermission();
+      const permission = await serviceWorkerManager.requestNotificationPermission();
       setNotificationPermission(permission);
       
       if (permission === 'granted') {
         toast.success('Notificações ativadas!');
         
-        // Subscribe to push notifications
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-          const registration = await navigator.serviceWorker.ready;
-          const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(
-              'BEl62iUYgUivxIkv69yViEuiBIa40HI80NM9LdNnC_NNNNNNNNNNNNNNNNNNNNNNNN' // Replace with your VAPID public key
-            )
-          });
-          
-          // Send subscription to server
-          console.log('Push subscription:', subscription);
+        // Subscribe to push notifications with VAPID key
+        const vapidPublicKey = 'BEl62iUYgUivxIkv69yViEuiBIa40HI80NM9LdNnC_NNNNNNNNNNNNNNNNNNNNNNNN'; // Replace with your VAPID public key
+        const subscription = await serviceWorkerManager.subscribeToPush(vapidPublicKey);
+        
+        if (subscription) {
+          console.log('Push subscription created:', subscription);
+          // Send subscription to server here
         }
         
         return true;
@@ -134,13 +138,12 @@ export function usePWA() {
     }
   };
 
-  const showNotification = (title: string, options?: NotificationOptions) => {
-    if (notificationPermission === 'granted') {
-      new Notification(title, {
-        icon: '/icons/icon-192x192.svg',
-        badge: '/icons/icon-72x72.svg',
-        ...options
-      });
+  const showNotification = async (title: string, options?: NotificationOptions) => {
+    try {
+      await serviceWorkerManager.showNotification(title, options);
+    } catch (error) {
+      console.error('Error showing notification:', error);
+      toast.error('Erro ao exibir notificação');
     }
   };
 
@@ -169,15 +172,56 @@ export function usePWA() {
     }
   };
 
+  const clearCaches = async () => {
+    try {
+      const success = await serviceWorkerManager.clearCaches();
+      if (success) {
+        toast.success('Cache limpo com sucesso');
+        setCacheSize(0);
+      } else {
+        toast.error('Erro ao limpar cache');
+      }
+    } catch (error) {
+      console.error('Error clearing caches:', error);
+      toast.error('Erro ao limpar cache');
+    }
+  };
+
+  const updateApp = async () => {
+    try {
+      await serviceWorkerManager.update();
+      toast.success('Aplicativo atualizado');
+    } catch (error) {
+      console.error('Error updating app:', error);
+      toast.error('Erro ao atualizar aplicativo');
+    }
+  };
+
+  const registerBackgroundSync = async (tag: string) => {
+    try {
+      await serviceWorkerManager.registerBackgroundSync(tag);
+      console.log(`Background sync registered: ${tag}`);
+    } catch (error) {
+      console.error('Error registering background sync:', error);
+    }
+  };
+
   return {
     isInstallable,
     isInstalled,
     isOnline,
     notificationPermission,
+    swVersion,
+    cacheSize,
     installApp,
     requestNotificationPermission,
     showNotification,
-    shareContent
+    shareContent,
+    clearCaches,
+    updateApp,
+    registerBackgroundSync,
+    isStandalone: serviceWorkerManager.isStandalone(),
+    networkStatus: serviceWorkerManager.getNetworkStatus()
   };
 }
 
