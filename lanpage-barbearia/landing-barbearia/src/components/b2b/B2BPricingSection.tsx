@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 
 const B2BPricingSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,99 +36,50 @@ const B2BPricingSection = () => {
 
   const plans = [
     {
-      name: "Starter",
-      description: "Para barbearias iniciantes",
+      name: "Plano Básico",
+      description: "Essenciais para começar",
       icon: Zap,
       color: "blue",
       pricing: {
-        monthly: 97,
-        yearly: 970
+        monthly: 19.99,
+        yearly: 19.99
       },
-      savings: billingCycle === 'yearly' ? '2 meses grátis' : null,
+      savings: null,
       features: [
-        "Agendamento 24/7",
-        "WhatsApp automático",
-        "Até 2 profissionais",
-        "Relatórios básicos",
-        "Suporte por email",
-        "App mobile completo"
+        "Link de agendamento com seu logo",
+        "Ferramentas de gestão",
+        "Personalização do site",
+        "Integração com Google Agenda"
       ],
       limitations: [
-        "Máximo 500 agendamentos/mês",
-        "Sem integrações avançadas",
-        "Sem IA personalizada"
+        "Sem integração com WhatsApp",
+        "Sem assistente automatizado"
       ],
-      cta: "Começar Teste Grátis",
-      popular: false,
-      roi: {
-        investment: billingCycle === 'monthly' ? 97 : 970,
-        expectedReturn: billingCycle === 'monthly' ? 1500 : 18000,
-        paybackDays: 15
-      }
+      cta: "Contratar Plano Básico",
+      popular: false
     },
     {
-      name: "Professional",
-      description: "Para barbearias em crescimento",
+      name: "Plano Completo",
+      description: "Tudo para automatizar sua barbearia",
       icon: Crown,
       color: "amber",
       pricing: {
-        monthly: 197,
-        yearly: 1970
+        monthly: 29.99,
+        yearly: 29.99
       },
-      savings: billingCycle === 'yearly' ? '2 meses grátis' : null,
+      savings: null,
       features: [
-        "Tudo do Starter",
-        "Até 5 profissionais",
-        "Integrações completas",
-        "Google Calendar sync",
-        "N8N workflows",
-        "IA básica",
-        "Relatórios avançados",
-        "Suporte prioritário",
-        "Vendas noturnas",
-        "Catálogo de produtos"
-      ],
-      limitations: [
-        "Máximo 2000 agendamentos/mês"
-      ],
-      cta: "Mais Popular",
-      popular: true,
-      roi: {
-        investment: billingCycle === 'monthly' ? 197 : 1970,
-        expectedReturn: billingCycle === 'monthly' ? 3000 : 36000,
-        paybackDays: 10
-      }
-    },
-    {
-      name: "Enterprise",
-      description: "Para redes e grandes barbearias",
-      icon: Shield,
-      color: "purple",
-      pricing: {
-        monthly: 397,
-        yearly: 3970
-      },
-      savings: billingCycle === 'yearly' ? '2 meses grátis' : null,
-      features: [
-        "Tudo do Professional",
-        "Profissionais ilimitados",
-        "Múltiplas unidades",
-        "IA avançada personalizada",
-        "API personalizada",
-        "Relatórios executivos",
-        "Suporte 24/7",
-        "Gerente de conta dedicado",
-        "Treinamento da equipe",
-        "Customizações exclusivas"
+        "Link de agendamento com seu logo",
+        "Ferramentas de gestão",
+        "Personalização do site",
+        "Integração com WhatsApp",
+        "Assistente que conversa e agenda automaticamente",
+        "Integração com Google Agenda",
+        "Automação via n8n"
       ],
       limitations: [],
-      cta: "Falar com Vendas",
-      popular: false,
-      roi: {
-        investment: billingCycle === 'monthly' ? 397 : 3970,
-        expectedReturn: billingCycle === 'monthly' ? 8000 : 96000,
-        paybackDays: 7
-      }
+      cta: "Contratar Plano Completo",
+      popular: true
     }
   ];
 
@@ -193,41 +144,10 @@ const B2BPricingSection = () => {
           </div>
         </div>
 
-        {/* Billing Toggle */}
-        <div className={`flex justify-center mb-10 transform transition-all duration-1000 delay-300 ${
-          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
-          <div className="bg-gray-800/50 p-1.5 rounded-xl backdrop-blur-sm border border-gray-700">
-            <div className="flex">
-              <button
-                onClick={() => setBillingCycle('monthly')}
-                className={`px-4 py-2 rounded-lg transition-all duration-300 text-sm ${
-                  billingCycle === 'monthly'
-                    ? 'bg-green-500 text-black font-bold'
-                    : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Mensal
-              </button>
-              <button
-                onClick={() => setBillingCycle('yearly')}
-                className={`px-4 py-2 rounded-lg transition-all duration-300 relative text-sm ${
-                  billingCycle === 'yearly'
-                    ? 'bg-green-500 text-black font-bold'
-                    : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Anual
-                <span className="absolute -top-1 -right-1 bg-amber-500 text-black text-xs px-1.5 py-0.5 rounded-full font-bold">
-                  -17%
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
+        
 
         {/* Pricing Cards - Compactos e Responsivos */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 transform transition-all duration-1000 delay-500 ${
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 transform transition-all duration-1000 delay-500 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           {plans.map((plan, index) => (
@@ -235,7 +155,7 @@ const B2BPricingSection = () => {
               key={index} 
               className={`relative p-6 backdrop-blur-sm transition-all duration-300 hover:scale-105 h-fit ${
                 plan.popular 
-                  ? 'bg-gradient-to-br from-amber-500/20 to-amber-600/20 border-amber-500/50 border-2 transform scale-105' 
+                  ? 'bg-gradient-to-br from-[#0b0b0b] via-[#111111] to-[#0b0b0b] border-amber-500/60 ring-1 ring-amber-400/40 shadow-xl shadow-amber-500/30 transform scale-105' 
                   : `${getColorClasses(plan.color).bg} ${getColorClasses(plan.color).border} border`
               }`}
             >
@@ -262,49 +182,25 @@ const B2BPricingSection = () => {
               <div className="text-center mb-6">
                 <div className="flex items-baseline justify-center mb-1">
                   <span className="text-3xl font-bold text-white">
-                    {formatCurrency(plan.pricing[billingCycle])}
+                    {formatCurrency(plan.pricing.monthly)}
                   </span>
                   <span className="text-gray-400 ml-1 text-sm">
-                    /{billingCycle === 'monthly' ? 'mês' : 'ano'}
+                    /mês
                   </span>
                 </div>
-                {plan.savings && (
-                  <div className="text-green-400 text-xs font-medium">
-                    💰 {plan.savings}
-                  </div>
-                )}
               </div>
 
-              {/* ROI Info - Compacto */}
-              <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 mb-5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-300">ROI Esperado:</span>
-                  <span className="text-green-400 font-bold">
-                    {formatCurrency(plan.roi.expectedReturn)}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs mt-1">
-                  <span className="text-gray-300">Se paga em:</span>
-                  <span className="text-green-400 font-bold">
-                    {plan.roi.paybackDays} dias
-                  </span>
-                </div>
-              </div>
+              
 
               {/* Features - Limitadas para manter compacto */}
               <div className="space-y-2 mb-6">
-                {plan.features.slice(0, 4).map((feature, featureIndex) => (
+                {plan.features.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-center">
                     <Check className="h-4 w-4 text-green-400 mr-2 flex-shrink-0" />
                     <span className="text-gray-300 text-xs">{feature}</span>
                   </div>
                 ))}
-                {plan.features.length > 4 && (
-                  <div className="text-gray-400 text-xs text-center pt-2">
-                    +{plan.features.length - 4} funcionalidades
-                  </div>
-                )}
-                {plan.limitations.slice(0, 1).map((limitation, limitIndex) => (
+                {plan.limitations.map((limitation, limitIndex) => (
                   <div key={limitIndex} className="flex items-center">
                     <X className="h-4 w-4 text-red-400 mr-2 flex-shrink-0" />
                     <span className="text-gray-400 text-xs">{limitation}</span>
@@ -345,22 +241,19 @@ const B2BPricingSection = () => {
                 <thead>
                   <tr className="border-b border-gray-700">
                     <th className="text-left p-4 text-white font-bold text-sm">Funcionalidades</th>
-                    <th className="text-center p-4 text-blue-400 font-bold text-sm">Starter</th>
-                    <th className="text-center p-4 text-amber-400 font-bold text-sm">Professional</th>
-                    <th className="text-center p-4 text-purple-400 font-bold text-sm">Enterprise</th>
+                    <th className="text-center p-4 text-blue-400 font-bold text-sm">Básico</th>
+                    <th className="text-center p-4 text-amber-400 font-bold text-sm">Completo</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    ['Agendamento 24/7', true, true, true],
-                    ['WhatsApp Automático', true, true, true],
-                    ['Profissionais', '2', '5', 'Ilimitado'],
-                    ['Google Calendar', false, true, true],
-                    ['Integrações N8N', false, true, true],
-                    ['IA Personalizada', false, 'Básica', 'Avançada'],
-                    ['Múltiplas Unidades', false, false, true],
-                    ['Suporte', 'Email', 'Prioritário', '24/7'],
-                    ['API Personalizada', false, false, true]
+                    ['Link de agendamento com logo', true, true],
+                    ['Ferramentas de gestão', true, true],
+                    ['Personalização do site', true, true],
+                    ['Integração com WhatsApp', false, true],
+                    ['Assistente que conversa e agenda', false, true],
+                    ['Integração com Google Agenda', true, true],
+                    ['Automação via n8n', false, true]
                   ].map((row, index) => (
                     <tr key={index} className="border-b border-gray-700/50">
                       <td className="p-4 text-gray-300 font-medium text-sm">{row[0]}</td>
@@ -376,13 +269,6 @@ const B2BPricingSection = () => {
                           row[2] ? <Check className="h-4 w-4 text-green-400 mx-auto" /> : <X className="h-4 w-4 text-red-400 mx-auto" />
                         ) : (
                           <span className="text-white text-sm">{row[2]}</span>
-                        )}
-                      </td>
-                      <td className="p-4 text-center">
-                        {typeof row[3] === 'boolean' ? (
-                          row[3] ? <Check className="h-4 w-4 text-green-400 mx-auto" /> : <X className="h-4 w-4 text-red-400 mx-auto" />
-                        ) : (
-                          <span className="text-white text-sm">{row[3]}</span>
                         )}
                       </td>
                     </tr>

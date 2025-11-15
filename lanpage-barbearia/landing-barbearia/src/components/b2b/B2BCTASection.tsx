@@ -228,15 +228,22 @@ const B2BCTASection = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            {steps.map((step, index) => (
-              <div key={index} className="text-center relative">
-                {/* Connection Line */}
-                {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-amber-400 to-transparent transform -translate-y-1/2 z-0"></div>
-                )}
-                
-                <Card className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-gray-700 p-8 backdrop-blur-sm relative z-10">
+          <div className="relative">
+            {/* Fundo decorativo para destacar a seção */}
+            <div className="absolute inset-0 -z-0 pointer-events-none">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,184,76,0.08),transparent_65%)]"></div>
+              <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.06),transparent_30%)]"></div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 mb-16 relative z-10">
+              {steps.map((step, index) => (
+                <div key={index} className="text-center relative">
+                  {/* Connection Line */}
+                  {index < steps.length - 1 && (
+                    <div className="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-amber-400 to-transparent transform -translate-y-1/2 z-0"></div>
+                  )}
+                  
+                <Card className="bg-gradient-to-br from-[#0c0c0c]/80 via-[#111111]/80 to-[#0c0c0c]/80 border border-neutral-800 p-8 backdrop-blur-sm relative z-10 shadow-lg">
                   <div className="bg-gradient-to-r from-amber-400 to-amber-600 text-black rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-6">
                     {step.number}
                   </div>
@@ -244,8 +251,9 @@ const B2BCTASection = () => {
                   <h4 className="text-2xl font-bold text-white mb-4">{step.title}</h4>
                   <p className="text-gray-300">{step.description}</p>
                 </Card>
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -253,7 +261,13 @@ const B2BCTASection = () => {
         <div className={`text-center transform transition-all duration-1000 delay-900 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
-          <Card className="bg-gradient-to-br from-amber-400/10 to-amber-600/10 border-amber-400/30 border-2 p-12 backdrop-blur-sm">
+          <div className="relative">
+            {/* Glow sutil atrás do card para evidenciar o fundo */}
+            <div className="absolute inset-0 -z-0 pointer-events-none">
+              <div className="mx-auto max-w-4xl h-64 blur-3xl bg-[radial-gradient(ellipse_at_center,rgba(255,184,76,0.09),transparent_70%)]"></div>
+            </div>
+
+            <Card className="bg-gradient-to-br from-[#0b0b0b] via-[#101010] to-[#0b0b0b] border border-amber-500/40 ring-1 ring-amber-400/30 p-12 backdrop-blur-sm shadow-xl shadow-amber-500/20 relative z-10">
             <div className="max-w-4xl mx-auto">
               <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
                 Não perca mais <span className="text-amber-400">clientes</span> e <span className="text-amber-400">dinheiro</span>
@@ -287,7 +301,8 @@ const B2BCTASection = () => {
                 <div>🛡️ Garantia total de 30 dias</div>
               </div>
             </div>
-          </Card>
+            </Card>
+          </div>
         </div>
 
         {/* Contact Info */}

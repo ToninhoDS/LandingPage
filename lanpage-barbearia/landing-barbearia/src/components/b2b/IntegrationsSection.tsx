@@ -37,17 +37,17 @@ const IntegrationsSection = () => {
 
   const integrations = {
     whatsapp: {
-      title: 'WhatsApp Business API',
+      title: 'WhatsApp Business API (Plano Completo)',
       icon: MessageSquare,
       color: 'green',
       description: 'Automação completa via WhatsApp oficial',
       features: [
-        'Confirmação automática de agendamentos',
-        'Lembretes 24h e 1h antes do horário',
-        'Cancelamentos e reagendamentos pelo chat',
-        'Catálogo de produtos integrado',
-        'Atendimento 24/7 com IA',
-        'Histórico completo de conversas'
+        'Confirmação automática de agendamentos (Plano Completo)',
+        'Lembretes 24h e 1h antes do horário (Plano Completo)',
+        'Cancelamentos e reagendamentos pelo chat (Plano Completo)',
+        'Catálogo de produtos integrado (Plano Completo)',
+        'Atendimento 24/7 com IA (Plano Completo)',
+        'Histórico completo de conversas (Plano Completo)'
       ],
       benefits: [
         '90% redução em no-shows',

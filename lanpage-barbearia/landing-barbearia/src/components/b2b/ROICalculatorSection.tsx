@@ -94,7 +94,11 @@ const ROICalculatorSection = () => {
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-96 h-96 bg-green-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-green-500/5 to-amber-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-green-500/7 to-amber-500/7 rounded-full blur-3xl"></div>
+        {/* Subtle grid + radial overlays for depth */}
+        <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDYwIDAgTCAwIDAgMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDRhZjM3IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(34,197,94,0.08),transparent_65%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(255,184,76,0.07),transparent_60%)]"></div>
       </div>
       
       <div className="container mx-auto max-w-7xl px-6 relative z-10">
@@ -121,10 +125,11 @@ const ROICalculatorSection = () => {
           <div className={`transform transition-all duration-1000 delay-300 ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
-            <Card className="relative bg-gradient-to-br from-gray-800/80 via-gray-900/80 to-black/80 border-gray-700/50 p-8 backdrop-blur-sm shadow-2xl shadow-gray-900/50 overflow-hidden">
+            <Card className="relative bg-gradient-to-br from-[#0b0b0b] via-[#101010] to-[#0b0b0b] border border-neutral-800 ring-1 ring-neutral-700/40 p-8 backdrop-blur-sm shadow-xl shadow-black/40 overflow-hidden">
               {/* Decorative background elements */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-purple-600/20 rounded-full blur-2xl"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-green-500/20 to-blue-500/20 rounded-full blur-xl"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.12),transparent_70%)] blur-2xl"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.12),transparent_70%)] blur-xl"></div>
+              <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDYwIDAgTCAwIDAgMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzc3IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]"></div>
               
               <div className="relative z-10">
                 <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
@@ -143,7 +148,7 @@ const ROICalculatorSection = () => {
                       max="50"
                       value={inputs.dailyClients}
                       onChange={(e) => handleInputChange('dailyClients', parseInt(e.target.value))}
-                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-3 bg-neutral-800 rounded-lg appearance-none cursor-pointer slider"
                     />
                     <div className="flex justify-between text-sm text-gray-400 mt-2">
                       <span>5</span>
@@ -161,7 +166,7 @@ const ROICalculatorSection = () => {
                       max="100"
                       value={inputs.averageTicket}
                       onChange={(e) => handleInputChange('averageTicket', parseInt(e.target.value))}
-                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-3 bg-neutral-800 rounded-lg appearance-none cursor-pointer slider"
                     />
                     <div className="flex justify-between text-sm text-gray-400 mt-2">
                       <span>R$ 20</span>
@@ -179,7 +184,7 @@ const ROICalculatorSection = () => {
                       max="30"
                       value={inputs.workingDays}
                       onChange={(e) => handleInputChange('workingDays', parseInt(e.target.value))}
-                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-3 bg-neutral-800 rounded-lg appearance-none cursor-pointer slider"
                     />
                     <div className="flex justify-between text-sm text-gray-400 mt-2">
                       <span>20</span>
@@ -197,7 +202,7 @@ const ROICalculatorSection = () => {
                       max="50"
                       value={inputs.noShowRate}
                       onChange={(e) => handleInputChange('noShowRate', parseInt(e.target.value))}
-                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-3 bg-neutral-800 rounded-lg appearance-none cursor-pointer slider"
                     />
                     <div className="flex justify-between text-sm text-gray-400 mt-2">
                       <span>10%</span>
@@ -214,10 +219,10 @@ const ROICalculatorSection = () => {
           <div className={`transform transition-all duration-1000 delay-500 ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
-            <Card className="relative bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-teal-600/20 border-green-400/50 p-8 backdrop-blur-sm shadow-2xl shadow-green-500/20 overflow-hidden">
+            <Card className="relative bg-gradient-to-br from-[#0b0b0b] via-[#101010] to-[#0b0b0b] border border-green-400/40 ring-1 ring-green-300/20 p-8 backdrop-blur-sm shadow-xl shadow-green-500/10 overflow-hidden">
               {/* Decorative background elements */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/30 to-emerald-500/30 rounded-full blur-2xl"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-teal-400/30 to-green-500/30 rounded-full blur-xl"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/20 to-emerald-500/20 rounded-full blur-2xl"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-teal-400/20 to-green-500/20 rounded-full blur-xl"></div>
               
               <div className="relative z-10">
                 <h3 className="text-3xl font-bold text-white mb-8 text-center">
@@ -225,10 +230,10 @@ const ROICalculatorSection = () => {
                 </h3>
 
                 <div className="grid grid-cols-2 gap-6 mb-8">
-                  <Card className="relative bg-gradient-to-br from-blue-500/20 via-indigo-500/15 to-purple-600/20 border-blue-400/50 p-6 backdrop-blur-sm shadow-xl shadow-blue-500/20 overflow-hidden">
+                  <Card className="relative bg-gradient-to-br from-[#0c0c0c]/85 via-[#121212]/85 to-[#0c0c0c]/85 border border-blue-400/30 p-6 backdrop-blur-sm shadow-lg overflow-hidden">
                     {/* Decorative background elements */}
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400/40 to-indigo-500/40 rounded-full blur-xl"></div>
-                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-purple-400/40 to-blue-500/40 rounded-full blur-lg"></div>
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400/25 to-indigo-500/25 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-purple-400/25 to-blue-500/25 rounded-full blur-lg"></div>
                     
                     <div className="relative z-10">
                       <div className="text-center">
@@ -239,10 +244,10 @@ const ROICalculatorSection = () => {
                     </div>
                   </Card>
 
-                  <Card className="relative bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-red-600/20 border-purple-400/50 p-6 backdrop-blur-sm shadow-xl shadow-purple-500/20 overflow-hidden">
+                  <Card className="relative bg-gradient-to-br from-[#0c0c0c]/85 via-[#121212]/85 to-[#0c0c0c]/85 border border-purple-400/30 p-6 backdrop-blur-sm shadow-lg overflow-hidden">
                     {/* Decorative background elements */}
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-400/40 to-pink-500/40 rounded-full blur-xl"></div>
-                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-red-400/40 to-purple-500/40 rounded-full blur-lg"></div>
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-400/25 to-pink-500/25 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-red-400/25 to-purple-500/25 rounded-full blur-lg"></div>
                     
                     <div className="relative z-10">
                       <div className="text-center">
@@ -253,10 +258,10 @@ const ROICalculatorSection = () => {
                     </div>
                   </Card>
 
-                  <Card className="relative bg-gradient-to-br from-amber-500/20 via-orange-500/15 to-red-600/20 border-amber-400/50 p-6 backdrop-blur-sm shadow-xl shadow-amber-500/20 overflow-hidden">
+                  <Card className="relative bg-gradient-to-br from-[#0c0c0c]/85 via-[#121212]/85 to-[#0c0c0c]/85 border border-amber-400/30 p-6 backdrop-blur-sm shadow-lg overflow-hidden">
                     {/* Decorative background elements */}
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-amber-400/40 to-orange-500/40 rounded-full blur-xl"></div>
-                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-red-400/40 to-amber-500/40 rounded-full blur-lg"></div>
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-amber-400/25 to-orange-500/25 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-red-400/25 to-amber-500/25 rounded-full blur-lg"></div>
                     
                     <div className="relative z-10">
                       <div className="text-center">
@@ -267,10 +272,10 @@ const ROICalculatorSection = () => {
                     </div>
                   </Card>
 
-                  <Card className="relative bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-teal-600/20 border-green-400/50 p-6 backdrop-blur-sm shadow-xl shadow-green-500/20 overflow-hidden">
+                  <Card className="relative bg-gradient-to-br from-[#0c0c0c]/85 via-[#121212]/85 to-[#0c0c0c]/85 border border-green-400/30 p-6 backdrop-blur-sm shadow-lg overflow-hidden">
                     {/* Decorative background elements */}
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-400/40 to-emerald-500/40 rounded-full blur-xl"></div>
-                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-teal-400/40 to-green-500/40 rounded-full blur-lg"></div>
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-400/25 to-emerald-500/25 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-teal-400/25 to-green-500/25 rounded-full blur-lg"></div>
                     
                     <div className="relative z-10">
                       <div className="text-center">

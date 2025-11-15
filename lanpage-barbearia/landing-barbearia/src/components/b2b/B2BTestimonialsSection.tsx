@@ -130,10 +130,17 @@ const B2BTestimonialsSection = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-gray-900 to-black"></div>
       
       {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-transparent to-amber-600/5 animate-pulse"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-amber-500/6 via-transparent to-amber-600/6 animate-pulse"></div>
+
+      {/* Radial glow overlays for depth */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,184,76,0.08),transparent_65%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(56,189,248,0.07),transparent_60%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(147,51,234,0.06),transparent_60%)]"></div>
+      </div>
       
       {/* Geometric pattern overlay */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-15">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDYwIDAgTCAwIDAgMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDRhZjM3IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] bg-repeat"></div>
       </div>
       
@@ -187,7 +194,7 @@ const B2BTestimonialsSection = () => {
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           {stats.map((stat, index) => (
-            <Card key={index} className="relative bg-gradient-to-br from-gray-800/70 to-gray-900/80 border border-gray-600/50 p-6 text-center backdrop-blur-lg hover:border-amber-400/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-amber-500/10 group overflow-hidden">
+            <Card key={index} className="relative bg-gradient-to-br from-[#0c0c0c]/85 via-[#121212]/85 to-[#0c0c0c]/85 border border-neutral-800 p-6 text-center backdrop-blur-lg hover:border-amber-400/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-amber-500/10 group overflow-hidden">
               {/* Background glow effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               
@@ -209,7 +216,7 @@ const B2BTestimonialsSection = () => {
         <div className={`transform transition-all duration-1000 delay-500 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
-          <Card className="relative bg-gradient-to-br from-gray-800/60 via-gray-900/70 to-black/80 border border-amber-400/20 p-8 lg:p-12 backdrop-blur-xl shadow-2xl shadow-amber-500/10 hover:shadow-amber-500/20 transition-all duration-500 hover:border-amber-400/40 group">
+          <Card className="relative bg-gradient-to-br from-[#0b0b0b] via-[#101010] to-[#0b0b0b] border border-neutral-800 ring-1 ring-amber-400/25 p-8 lg:p-12 backdrop-blur-xl shadow-2xl shadow-black/40 hover:shadow-amber-500/20 transition-all duration-500 hover:border-amber-400/40 group">
             {/* Card inner glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 via-transparent to-amber-600/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
@@ -322,7 +329,7 @@ const B2BTestimonialsSection = () => {
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           {testimonials.slice(0, 3).map((testimonial, index) => (
-            <Card key={index} className="relative bg-gradient-to-br from-gray-800/60 to-gray-900/70 border border-gray-600/40 p-6 backdrop-blur-lg hover:border-amber-400/30 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/10 group overflow-hidden">
+            <Card key={index} className="relative bg-gradient-to-br from-[#0c0c0c]/85 via-[#121212]/85 to-[#0c0c0c]/85 border border-neutral-800 p-6 backdrop-blur-lg hover:border-amber-400/30 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/10 group overflow-hidden">
               {/* Background glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-amber-400/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               

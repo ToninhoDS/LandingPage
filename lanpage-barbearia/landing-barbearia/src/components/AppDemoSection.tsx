@@ -38,7 +38,7 @@ const AppDemoSection = () => {
     },
     {
       icon: MessageCircle,
-      title: "Confirme por WhatsApp",
+      title: "Confirme por WhatsApp (Plano Completo)",
       description: "Receba confirmação instantânea",
       image: "https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=whatsapp%20chat%20interface%20barbershop%20appointment%20confirmation%20mobile%20screen&image_size=portrait_4_3"
     },

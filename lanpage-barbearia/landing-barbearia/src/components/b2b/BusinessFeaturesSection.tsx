@@ -51,7 +51,7 @@ const BusinessFeaturesSection = () => {
         {
           icon: Bell,
           title: 'Lembretes Automáticos',
-          description: 'WhatsApp automático 24h e 1h antes',
+          description: 'Lembretes por WhatsApp (Plano Completo)',
           benefit: '90% menos no-shows'
         },
         {

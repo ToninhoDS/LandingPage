@@ -77,12 +77,12 @@ const B2BHeroSection = () => {
             
             <Button 
               size="lg" 
-              variant="outline" 
               onClick={handleViewDemo}
-              className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10 px-12 py-6 text-xl backdrop-blur-sm transform hover:scale-110 transition-all duration-500 hover:border-amber-400 hover:shadow-lg hover:shadow-amber-400/20"
+              className="relative px-12 py-6 text-xl font-bold text-white bg-[#0b0b0b] border border-amber-500/40 ring-1 ring-amber-400/30 rounded-2xl shadow-xl overflow-hidden
+               before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_at_center,rgba(255,184,76,0.12),transparent_70%)] before:opacity-60 before:pointer-events-none
+               hover:bg-[#121212] hover:ring-amber-400/50 hover:border-amber-500/60 hover:shadow-amber-500/30 transform hover:scale-110 transition-all duration-500"
             >
-              Ver Demonstração
-              <ArrowRight className="h-6 w-6 ml-3" />
+              <span className="relative z-10 flex items-center">Ver Demonstração <ArrowRight className="h-6 w-6 ml-3 text-amber-400" /></span>
             </Button>
           </div>
 

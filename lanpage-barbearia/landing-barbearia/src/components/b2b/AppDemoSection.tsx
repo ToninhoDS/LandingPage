@@ -38,7 +38,7 @@ const AppDemoSection = () => {
     {
       id: 1,
       title: 'Agendamento Instantâneo',
-      description: 'Cliente agenda em segundos, direto pelo WhatsApp',
+      description: 'Cliente agenda em segundos, direto pelo WhatsApp (Plano Completo)',
       icon: Calendar,
       color: 'blue',
       features: ['Agenda 24/7', 'Confirmação automática', 'Lembretes inteligentes'],
@@ -56,7 +56,7 @@ const AppDemoSection = () => {
     {
       id: 3,
       title: 'WhatsApp Automático',
-      description: 'Comunicação automatizada que funciona 24h',
+      description: 'Comunicação automatizada que funciona 24h (Plano Completo)',
       icon: MessageSquare,
       color: 'purple',
       features: ['Respostas automáticas', 'Confirmações', 'Promoções'],
