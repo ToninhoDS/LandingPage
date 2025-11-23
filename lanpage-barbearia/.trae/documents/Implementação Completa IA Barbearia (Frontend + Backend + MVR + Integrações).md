@@ -1,89 +1,194 @@
-## Objetivo
-- Entregar um PWA de agendamento para barbearias com painel administrativo, fluxo progressivo, MVR (bloqueio 5 min), integração n8n/WhatsApp, Google Agenda e pagamentos.
+# ✅ **PROMPT FINAL — APP PWA iABarbearia (Com Planos Atualizados)**
 
-## Escopo
-- Frontend React já iniciado será evoluído com Tailwind, Framer Motion, React Query.
-- Backend Node com Redis para locks de MVR, endpoints REST, integrações n8n/Google Agenda, autenticação JWT para painel.
+Quero que você desenvolva um **APP PWA moderno e profissional** para barbearias, chamado **iABarbearia**, utilizando as **cores e identidade visual da minha Landing Page**.
+O sistema deve oferecer **experiência premium**, animações, microinterações, fluidez e foco em **alta conversão**.
 
-## Arquitetura
-- Frontend: React + Vite, SPA com rotas `/` (painel) e `/:slug/:tenantId/*` (público).
-- Backend: Fastify (ou NestJS) + Prisma (ou Drizzle) para ORM.
-- Cache/locks: Redis para MVR 5 min.
-- Integrações: Webhook n8n, Google Calendar API.
+---
 
-## Frontend
-1. Tailwind CSS
-- Instalar e configurar Tailwind (tema black + amarelo suave, componentes básicos: botão, card, input).
-- Migrar `styles.css` para utilitários Tailwind mantendo o visual atual.
+# 🎨 **1. Identidade Visual do APP**
 
-2. Framer Motion
-- Animar transições entre passos (enter/exit), microinterações nos botões.
+* Usar as cores e estilo da minha landing page.
+* Layout elegante, com UX moderna e de alto padrão.
+* Microinterações visuais durante seleção de serviços, carregamento, progresso etc.
+* O APP será 100% PWA com comportamento de aplicativo nativo.
 
-3. React Query + Axios
-- Criar client HTTP e camada de hooks (`useServices`, `useProfessionals`, `useSlots`, `useBooking`).
-- Estados do fluxo: serviço → profissional → data → horário → lock → dados → resumo → pagamento → confirmação.
+---
 
-4. Páginas e rotas
-- Painel: telas de Serviços, Profissionais, Horários, Pagamentos, Google Agenda, Webhook n8n, Assinaturas.
-- Público: componentes de carrossel, seleção de slots 30 min, adição multi-pessoa.
+# 🌐 **2. Estrutura de Domínio / Rotas**
 
-5. PWA/Performance
-- Ícones no `manifest`, offline fallback de assets, precache básico.
-- Lighthouse 90+: lazy-loading, code-splitting das rotas, imagens otimizadas.
+### **Painel Administrativo do Contratante**
 
-## Backend
-1. Base do servidor
-- Fastify com rotas REST conforme tabela de endpoints definida no prompt.
-- Configuração CORS, validação com Zod/TypeBox.
+```
+https://www.iabarbearia.com/
+```
 
-2. Modelos de dados
-- Implementar tabelas: tenants, services, professionals, schedules, bookings, locks, payment_methods, google_integrations, webhooks, subscriptions.
+* Aqui aparece o **login administrativo**.
+* Cada contratante acessa seu painel, configura serviços, profissionais, agenda, pagamentos etc.
 
-3. Endpoints
-- `/api/:slug/:tenantId/services`, `/professionals`, `/slots`, `/lock`, `/book`, `/confirm`, `/cancel`.
-- Admin: `/api/admin/:tenantId/config` (GET/POST) e endpoints para gestão (CRUD) de serviços/profissionais/horários.
+### **APP Público do Contratante (sem login)**
 
-4. MVR (bloqueio 5 min)
-- Redis: chave composta `lock:{tenantId}:{professionalId}:{date}:{time}` com TTL 300s.
-- Ao clicar no slot: verificar lock; se livre, criar lock e retornar contador.
+```
+https://www.iabarbearia.com/[slug-do-contratante]/[tenantId]/
+```
 
-5. Integração n8n
-- Após confirmação, enviar `POST` ao webhook do tenant com payload do booking.
+Exemplo:
 
-6. Google Agenda
-- OAuth no painel; salvar credenciais; criar evento na agenda do profissional/estabelecimento ao confirmar.
+```
+https://www.iabarbearia.com/barbearia-do-luiz/1234/
+```
 
-7. Pagamentos
-- Ativar/desativar métodos; integração com gateway (stub inicial). Para Pix: gerar payload; Cartão: integração futura; Local: marcar como `pending_confirmed`.
+Nesta rota:
 
-8. Autenticação
-- JWT para painel administrativo; escopo por `tenantId`.
+* NÃO deve aparecer botão de login
+* Apenas o APP público do contratante
+* Exibir:
 
-## Infra e DevOps
-- Variáveis de ambiente (`.env`) para Redis, n8n webhook, Google API, gateway.
-- Docker Compose para Redis.
-- Seeds de dados demo (serviços, profissionais, horários).
-- Testes unitários e e2e (frontend: Playwright; backend: Vitest/Jest).
-- Logs estruturados e tratamento de erros.
+  * capa/banner
+  * carrossel de fotos
+  * carrossel de horários disponíveis
+  * serviços
+  * profissionais
+  * botões temáticos de ação
+  * fluxo de agendamento completo
 
-## Milestones
-- Fase 1: Frontend UI/UX premium (Tailwind + Framer Motion) e fluxo completo usando mocks.
-- Fase 2: Backend mínimo com slots de 30 min e MVR via Redis.
-- Fase 3: n8n webhook e painel para configurar URL.
-- Fase 4: Google Agenda e métodos de pagamento.
-- Fase 5: Assinaturas (Starter/Pro/Business), polimento, Lighthouse 90+.
+---
 
-## Entregáveis
-- Frontend funcional com transições e tema.
-- API com documentação (OpenAPI), banco e Redis.
-- Integrações n8n/Google Agenda operacionais.
-- PWA instalável e responsivo.
+# 🧔‍♂️ **3. APP Público — Fluxo do Usuário (cliente)**
 
-## Validação
-- Rotas públicas/admin funcionando nas URLs.
-- Bloqueio MVR auditável (TTL Redis).
-- Webhook n8n recebendo payload e enviando WhatsApp.
-- Eventos criados na Google Agenda após confirmação.
-- Testes e relatório de performance.
+### **Tela inicial**
 
-Confirma a execução deste plano? Após confirmação, inicio pela Fase 1 (Tailwind + Framer Motion + hooks de dados) e preparo os stubs de API para integração progressiva.
+* Banner/capa do estabelecimento
+* Carrossel com fotos enviadas pelo contratante
+* Segundo carrossel com horários disponíveis
+* Botões temáticos:
+
+  * Agendar Serviço
+  * Ver Profissionais
+  * Serviços Disponíveis
+
+### **Processo Guiado com Barra de Progresso**
+
+1. Selecionar serviço
+2. Selecionar profissional
+3. Escolher dia
+4. Escolher horário
+5. Adicionar outra pessoa (opcional)
+6. Escolher pagamento
+7. Confirmar
+
+### **Sistema de Reserva Temporária (MVR)**
+
+* Quando um horário é selecionado, bloquear por **5 minutos**
+* Outros usuários não podem agendar o mesmo horário durante esse período
+* Horários sempre em intervalos de **30 minutos**
+
+---
+
+# 🛠️ **4. Painel Administrativo**
+
+O contratante pode:
+
+### **Configurações Gerais**
+
+* Alterar capa/banner
+* Adicionar fotos ao carrossel
+* Definir nome e informações do estabelecimento
+
+### **Profissionais**
+
+* Cadastrar profissionais
+* Definir horários e dias disponíveis
+* Ativar/desativar profissionais
+
+### **Serviços**
+
+* Cadastrar serviços (corte, barba, estética, etc.)
+* Preço
+* Tempo de execução
+* Ativar/desativar
+
+### **Pagamentos**
+
+Ativar ou não:
+
+* Pagar no local
+* Pix
+* Cartão
+* Pagamento antecipado
+* Pagar no ato do corte
+
+### **Integração com Google Agenda**
+
+* Inserir credenciais
+* Agendamentos aparecem automaticamente na agenda do contratante
+
+---
+
+# 🔔 **5. Integração com n8n — WhatsApp (Para Plano Completo)**
+
+O sistema enviará webhooks para fluxos no n8n, permitindo:
+
+* Enviar mensagens automáticas ao WhatsApp do cliente
+* Envio de lembretes
+* Mensagens de confirmação
+* Status do agendamento
+* Notificação ao profissional
+
+### **Assistente / Agente Inteligente**
+
+(Disponível apenas no **Plano Completo**)
+
+O agente será capaz de:
+
+* Conversar com usuários via WhatsApp
+* Ajudar o cliente a escolher serviço
+* Mostrar horários disponíveis
+* Agendar diretamente via WhatsApp
+* Confirmar e registrar o agendamento na plataforma
+* Sincronizar com Google Agenda
+
+---
+
+# 💳 **6. PLANOS DE ASSINATURA (Atualizado)**
+- eles sao exibidos na tela admin do usuario que contratou o sistema
+## 🟩 **PLANO COMPLETO**
+
+**R$ 29,99 / mês**
+
+Inclui:
+
+* Link de agendamento com seu logo
+* Ferramentas de gestão
+* Personalização do site
+* **Integração com WhatsApp**
+* **Assistente que conversa com os clientes e agenda automaticamente**
+* Integração com Google Agenda
+* Automação via n8n
+
+---
+
+## 🟧 **PLANO BÁSICO**
+
+**R$ 19,99 / mês** (aprox. R$ 1/dia)
+
+Inclui:
+
+* Link de agendamento com seu logo
+* Ferramentas de gestão
+* Personalização do site
+* Integração com Google Agenda
+* ❌ **Sem integração com WhatsApp**
+* ❌ Sem assistente automatizado
+
+---
+
+# 📱 **7. Requisitos Técnicos**
+
+* PWA com experiência nativa
+* Multi-tenant (estrutura por slug + tenantId)
+* MVR bloqueando horários por 5 minutos
+* Animações e microinterações
+* Estrutura escalável
+* Alto desempenho
+
+

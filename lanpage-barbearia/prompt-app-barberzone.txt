@@ -1,0 +1,163 @@
+## 🧠 PROMPT TEXTUAL — APP PWA “BarberZone”
+
+**Título do Projeto:**
+📱 **BarberZone — Plataforma Inteligente para Barbearias Modernas**
+
+---
+
+### 🎯 Objetivo
+
+Criar um **aplicativo PWA responsivo e progressivo** para barbearias, com **cores, identidade e estilo baseados na landing-barbearia no diretorio raiz do domínio (barberzone.com.br)**.
+O app deve oferecer **agendamento online, pagamentos integrados, notificações automatizadas, integração com Google Agenda e WhatsApp**, além de um **painel de controle (dashboard)** acessível para o contratante dentro da **landing-barbearia (painel administrativo)**.
+
+---
+
+### 🎨 Identidade Visual
+
+* Usar **as cores principais da landing page** como base (tons de preto, dourado e branco ou conforme paleta do site).
+* Design **minimalista, elegante e profissional**, inspirado em barbearias premium.
+* Tipografia moderna e legível.
+* Ícones suaves e coerentes com o tema (ex: tesoura, navalha, relógio, barbeiro, cadeira).
+
+---
+
+### 📱 Funcionalidades do APP (usuário final)
+
+#### 👤 Autenticação e Perfil
+
+* usuario nao a necessidade de login sempre vai trazer as informaçoes do whatzao com n8n e storege.
+* Cadastro de informações básicas (nome, telefone, foto opcional).
+* Histórico de agendamentos e serviços realizados.
+
+#### ✂️ Agendamento Inteligente
+
+* O usuário pode:
+
+  * Escolher **profissional** e **serviço** (corte, barba, combo, etc.).
+  * Selecionar **dia e horário disponíveis** em tempo real.
+  * Agendar **para si mesmo ou mais de uma pessoa** (ex: pai e filho).
+* Sistema de **limite de vagas e horários** configurável pelo dono da barbearia.
+
+#### 💳 Pagamento Integrado
+
+* Integrações com **Pix, cartão de crédito, PayPal ou MercadoPago**.
+* Opção de **pagamento antecipado** ou no local.
+* Emissão automática de recibo digital.
+
+#### 🔔 Notificações Automatizadas
+
+* Envio de notificações no **WhatsApp** e **no app**:
+
+  * 1 dia antes do corte;
+  * 2 horas antes;
+  * 1 hora antes.
+* As notificações podem ser **configuradas no painel da barbearia**.
+* Mensagens personalizadas com nome do cliente, horário, profissional e tipo de serviço.
+
+#### 🌐 Acesso Direto por Link
+
+* Cada barbearia tem seu link único:
+  **barberzone.com.br/servico/[id-do-contratante]**
+* O link abre o app já com os dados do salão correspondente, permitindo ao usuário agendar e pagar.
+
+#### 💬 Confirmação via WhatsApp
+
+* Após o agendamento, o cliente recebe uma **mensagem automática no WhatsApp** com:
+
+  * Nome do barbeiro
+  * Data e hora do corte
+  * Tipo de serviço
+  * Link de confirmação e detalhes de pagamento
+
+---
+
+### 💼 Painel do Contratante (Landing-Barbearia)
+
+#### 📊 Dashboard em Tempo Real
+
+* Exibe todos os **clientes agendados no dia**.
+* Mostra se **pagaram ou não** e qual **serviço será prestado**.
+* Estatísticas gerais:
+
+  * Total de atendimentos
+  * Receita do dia
+  * Serviços mais vendidos
+
+#### ⚙️ Customização Avançada
+
+* Permite **personalizar o layout do painel**, inclusive o que será mostrado na **TV da barbearia (modo TV)**.
+* O painel pode mostrar:
+
+  * Nome do cliente atual
+  * Profissional atendendo
+  * Status do pagamento
+  * Tempo estimado restante
+
+#### 🔗 Integrações
+
+* Integração total com:
+
+  * **N8N** (para automações e notificações personalizadas)
+  * **Google Calendar** (sincronização automática dos agendamentos)
+  * **WhatsApp Business API / Evolution API**
+
+---
+
+### 🧩 Recursos Técnicos e Requisitos
+
+#### 🔧 Stack Recomendada
+
+* **Frontend:** React + Next.js (PWA Ready)
+* **Backend:** Node.js + Express + PostgreSQL / Prisma
+* **Infraestrutura:** Docker + Vercel (Deploy Front) + Render/ Railway (Backend)
+* **Mensageria / Notificações:** N8N + WhatsApp API
+* **Autenticação:** Firebase Auth ou Clerk
+* **Pagamentos:** Stripe / MercadoPago SDK
+* **Agenda:** Google Calendar API
+
+#### 📱 Recursos PWA
+
+* Funciona offline com cache inteligente.
+* Ícone instalável na tela inicial (Android / iOS).
+* Push Notifications via Service Worker.
+* Layout mobile-first.
+
+---
+
+### 📘 Documentação Solicitada
+
+1. **README.md**
+
+   * Descrição do projeto, stack, instalação e execução.
+   * Instruções para ambiente local e produção.
+
+2. **Arquitetura do Sistema (DOC)**
+
+   * Diagrama com módulos (App Cliente, Dashboard Contratante, API, Banco, Integrações).
+   * Explicação de fluxos de dados e notificações.
+
+3. **Guia de Integração (DOC)**
+
+   * Como conectar WhatsApp API, Google Agenda e N8N.
+   * Configurações de variáveis de ambiente.
+
+4. **Manual do Contratante (PDF)**
+
+   * Como usar o painel da barbearia.
+   * Como configurar horários, profissionais e mensagens automáticas.
+
+5. **Manual do Usuário (PDF)**
+
+   * Passo a passo para usar o app, marcar serviços e pagar.
+
+---
+
+### 🚀 Diferenciais de Mercado
+
+* Sistema **multi-barbearia sob o mesmo domínio**, permitindo expansão.
+* **Mensagens humanizadas via WhatsApp**, integradas com IA (opcional via N8N + GPT).
+* Painel configurável com **modo TV**.
+* Layout elegante, rápido e compatível com dispositivos antigos.
+* Estrutura pronta para escalar (várias barbearias / franquias).
+
+

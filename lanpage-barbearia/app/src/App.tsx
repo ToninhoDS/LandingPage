@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import AdminLogin from "./pages/AdminLogin";
 import PublicHome from "./pages/PublicHome";
+import BookingPage from "./pages/BookingPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminSettings from "./pages/admin/Settings";
 import AdminServices from "./pages/admin/Services";
@@ -15,13 +16,15 @@ const App = () => {
       <Route path="/" element={<AdminLogin />} />
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminSettings />} />
+        <Route path="configuracoes" element={<AdminSettings />} />
         <Route path="servicos" element={<AdminServices />} />
         <Route path="profissionais" element={<AdminProfessionals />} />
         <Route path="pagamentos" element={<AdminPayments />} />
         <Route path="integracoes" element={<AdminIntegrations />} />
         <Route path="planos" element={<AdminPlans />} />
       </Route>
-      <Route path="/:slug/:tenantId/*" element={<PublicHome />} />
+      <Route path="/:slug/:tenantId" element={<PublicHome />} />
+      <Route path="/:slug/:tenantId/agendar" element={<BookingPage />} />
       <Route path="*" element={<AdminLogin />} />
     </Routes>
   );

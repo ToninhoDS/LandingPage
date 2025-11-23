@@ -1,0 +1,21 @@
+{
+  "name": "iABarbearia",
+  "short_name": "iAB",
+  "description": "Agendamentos de barbearia com experiência premium e multi-tenant",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#111111",
+  "lang": "pt-BR",
+  "prefer_related_applications": false,
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

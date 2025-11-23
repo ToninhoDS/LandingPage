@@ -25,7 +25,7 @@ const AdminLogin = () => {
           />
           <button
             className="w-full rounded-md bg-amber-500 p-3 font-medium text-black hover:bg-amber-400 transition"
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate("/admin/configuracoes")}
           >
             Entrar
           </button>

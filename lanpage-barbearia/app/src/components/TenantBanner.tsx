@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import InstallPrompt from "./InstallPrompt";
 
 type Props = { slug: string; tenantId: string };
 
@@ -9,7 +10,10 @@ const TenantBanner = ({ slug, tenantId }: Props) => {
       <div className="absolute inset-0 opacity-30 bg-gradient-radial from-amber-500/30 to-transparent" />
       <div className="relative">
         <h2 className="text-3xl font-bold text-white">{title}</h2>
-        <p className="mt-2 text-sm text-neutral-300">Tenant {tenantId}</p>
+        <p className="mt-2 text-sm text-neutral-300">Identificador: {tenantId}</p>
+        <div className="mt-3">
+          <InstallPrompt />
+        </div>
       </div>
     </div>
   );
