@@ -55,8 +55,8 @@ const HoursCarousel = ({
   };
 
   return (
-    <div className="mt-4">
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
+    <div className="mt-4 w-full">
+      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 max-w-full">
         {slots.map(({ time, disabled }) => {
           const active = time === selected;
           return (
@@ -64,7 +64,7 @@ const HoursCarousel = ({
               key={time}
               onClick={() => handleTimeClick(time, disabled)}
               disabled={disabled}
-              className={`rounded-lg px-3 py-3 text-sm font-medium transition-all duration-200 will-change-transform ${
+              className={`rounded-lg px-2 py-2 md:px-3 md:py-3 text-xs md:text-sm font-medium transition-all duration-200 will-change-transform ${
                 disabled
                   ? "bg-neutral-700 text-neutral-500 cursor-not-allowed opacity-50"
                   : active

@@ -1,6 +1,7 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import HoursCarousel from "./HoursCarousel";
 import CalendarPicker from "./CalendarPicker";
+import BookingSummaryStrip from "./BookingSummaryStrip";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 
 const steps = [
@@ -97,12 +98,37 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
   const [cameFromAddPerson, setCameFromAddPerson] = useState(false);
   const [userName, setUserName] = useState<string>("");
   const [userWhatsApp, setUserWhatsApp] = useState<string>("");
+  const [showSummary, setShowSummary] = useState(false);
   const progress = Math.round(((step + 1) / steps.length) * 100);
+  
+  const getProfessionalData = (name: string | undefined) => {
+    return professionals.find(p => p.name === name);
+  };
+  
   const [holdUntil, setHoldUntil] = useState<number | undefined>(undefined);
   const [holdRemaining, setHoldRemaining] = useState<number>(0);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showReservationWarning, setShowReservationWarning] = useState(false);
   const [selectedProfessionalDetails, setSelectedProfessionalDetails] = useState<typeof professionals[0] | null>(null);
+  const [bookings, setBookings] = useState<Array<{name: string; whatsapp: string; professional?: string; service?: string; day?: Date; time?: string; payment?: string}>>([]);
+  const [showBookedModal, setShowBookedModal] = useState(false);
+  const [openBookingIndex, setOpenBookingIndex] = useState<number | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const jumpToStep = (target: number) => {
+    if (target < 0 || target >= steps.length) return;
+    if (target < 4) setShowSummary(false);
+    simulateLoading();
+    setStep(target);
+  };
+
+  const formatShortName = (full: string) => {
+    const parts = full.trim().split(/\s+/);
+    if (parts.length === 0) return "";
+    if (parts.length === 1) return parts[0];
+    const lastInitial = (parts[parts.length - 1][0] || "").toUpperCase();
+    return `${parts[0]} ${lastInitial}.`;
+  };
 
   // Expose handleNavbarBack to parent component
   useImperativeHandle(ref, () => ({
@@ -147,13 +173,11 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
     
     // Special logic for step 5 (+1 Pessoa)
     if (step === 5) {
-      if (addPerson === true) {
-        // This should not happen anymore since we go directly to step 0
-        // But keep as safety check
-        return;
-      }
-      // If no person added (addPerson is undefined or false), continue normally to payment
-      // Don't reset addPerson here - keep the state for navigation purposes
+      // When user clicks Avançar at step 5, proceed to payment regardless
+      // Reset flags related to adding person so flow continues
+      setAddPerson(undefined);
+      setCameFromAddPerson(false);
+      setIsSecondPerson(false);
     }
     
     // Validação para garantir que o usuário não pule etapas
@@ -167,10 +191,55 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
       setHoldUntil(Date.now() + 5 * 60 * 1000);
     }
     
+    // Show summary when advancing from step 3 (after selecting time)
+    if (step === 3 && selectedTime) {
+      setShowSummary(true);
+    }
+    
     simulateLoading();
     setStep((s) => Math.min(steps.length - 1, s + 1));
   };
   const prev = () => {
+    // Hide summary when going back from step 4
+    if (step === 4) {
+      setShowSummary(false);
+    }
+    
+    // Clear subsequent selections when going back
+    if (step === 7) {
+      // Going back from confirmation - clear payment selection
+      setSelectedPayment(undefined);
+    } else if (step === 6) {
+      // Going back from payment - clear add person selection if needed
+      if (bookingCount === 1) {
+        setAddPerson(undefined);
+        setIsSecondPerson(false);
+      }
+    } else if (step === 5) {
+      // Going back from add person - clear user data if second person
+      if (isSecondPerson) {
+        setUserName("");
+        setUserWhatsApp("");
+        setIsSecondPerson(false);
+      }
+    } else if (step === 4) {
+      // Going back from user data - clear time selection
+      setSelectedTime(undefined);
+      setHoldUntil(undefined);
+      setHoldRemaining(0);
+    } else if (step === 3) {
+      // Going back from time selection - clear day selection
+      setSelectedTime(undefined);
+      setHoldUntil(undefined);
+      setHoldRemaining(0);
+    } else if (step === 2) {
+      // Going back from calendar - clear service selection
+      setSelectedDay(undefined);
+    } else if (step === 1) {
+      // Going back from service - clear professional selection
+      setSelectedService(undefined);
+    }
+    
     // Special logic: if we came from add person and are at step 0, go back to step 5 (add person)
     if (step === 0 && cameFromAddPerson) {
       setCameFromAddPerson(false);
@@ -210,23 +279,123 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
   };
 
   return (
-    <div className="mt-8 rounded-xl border border-neutral-800 bg-neutral-900 p-6 md:p-8">
+    <div className="mt-4 rounded-xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6 md:p-8 max-w-full">
       <div className="mb-6">
-        <div className="mb-2 flex items-center justify-between">
+        <div className="mb-2 flex items-center justify-between relative">
           <div className="flex items-center gap-2">
             <span className="text-sm text-neutral-300">Passo {step + 1} de {steps.length}</span>
-            {isSecondPerson && (
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-500 text-white">
-                Pessoa {bookingCount}
-              </span>
-            )}
           </div>
-          <span className="text-sm font-medium text-amber-500">{progress}%</span>
-        </div>
-        <div className="h-2 w-full rounded bg-neutral-800">
-          <div className="h-2 rounded bg-amber-500" style={{ width: `${progress}%` }} />
+          <div className="w-32 h-2 bg-neutral-800 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-amber-500 transition-all duration-700 ease-out delay-200"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
       </div>
+
+      {showBookedModal && bookings.length > 0 && (
+        <div className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm flex items-center justify-center">
+          <div className="w-full max-w-md rounded-xl border border-neutral-700 bg-neutral-900 p-6">
+            <h4 className="text-white font-semibold mb-4">Agendamento de <span className="text-amber-400 font-semibold">{formatShortName(openBookingIndex !== null ? bookings[openBookingIndex].name : bookings[0].name)}</span></h4>
+            <div className="space-y-2 text-sm text-neutral-300">
+              <div className="flex justify-between"><span>Profissional</span><span className="text-white">{(openBookingIndex !== null ? bookings[openBookingIndex].professional : bookings[0].professional) || "—"}</span></div>
+              <div className="flex justify-between"><span>Serviço</span><span className="text-white">{(openBookingIndex !== null ? bookings[openBookingIndex].service : bookings[0].service) || "—"}</span></div>
+              <div className="flex justify-between"><span>Data</span><span className="text-white">{(openBookingIndex !== null ? bookings[openBookingIndex].day : bookings[0].day) ? ((openBookingIndex !== null ? bookings[openBookingIndex].day : bookings[0].day) as Date).toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }) : "—"}</span></div>
+              <div className="flex justify-between"><span>Horário</span><span className="text-white">{(openBookingIndex !== null ? bookings[openBookingIndex].time : bookings[0].time) || "—"}</span></div>
+              <div className="flex justify-between"><span>Pagamento</span><span className="text-white">{(openBookingIndex !== null ? bookings[openBookingIndex].payment : bookings[0].payment) || "No local"}</span></div>
+              <div className="flex justify-between"><span>Nome</span><span className="text-white">{(openBookingIndex !== null ? bookings[openBookingIndex].name : bookings[0].name) || "—"}</span></div>
+              <div className="flex justify-between"><span>WhatsApp</span><span className="text-white">{(openBookingIndex !== null ? bookings[openBookingIndex].whatsapp : bookings[0].whatsapp) || "—"}</span></div>
+            </div>
+            <div className="mt-6 flex gap-3">
+              <button className="flex-1 rounded-lg bg-neutral-800 text-white px-4 py-3" onClick={() => setShowBookedModal(false)}>Fechar</button>
+              <button className="flex-1 rounded-lg bg-red-600 text-white px-4 py-3" onClick={() => setShowDeleteConfirm(true)}>Excluir</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm flex items-center justify-center">
+          <div className="w-full max-w-sm rounded-xl border border-neutral-700 bg-neutral-900 p-5 text-center">
+            <p className="text-neutral-200 mb-4">Excluir este agendamento?</p>
+            <div className="flex gap-3">
+              <button className="flex-1 rounded-lg bg-neutral-800 text-white px-4 py-3" onClick={() => setShowDeleteConfirm(false)}>Cancelar</button>
+              <button className="flex-1 rounded-lg bg-red-600 text-white px-4 py-3" onClick={() => { setBookings(prev => prev.filter((_, i) => i !== (openBookingIndex ?? -1))); setShowDeleteConfirm(false); setShowBookedModal(false); setOpenBookingIndex(null); }}>Excluir</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {bookings.length > 0 && (
+        <div className="mb-4 space-y-2">
+          {bookings.map((b, idx) => (
+            <div key={idx} className="p-3 rounded-xl bg-gradient-to-r from-neutral-800 to-neutral-900 border border-neutral-700 flex items-center justify-between cursor-pointer" onClick={() => { setOpenBookingIndex(idx); setShowBookedModal(true); }}>
+              <span className="text-sm text-neutral-400">Agendado <span className="text-amber-400 font-semibold">{formatShortName(b.name)}</span></span>
+              <span className="text-white text-lg">+</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {showSummary && (
+        <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-neutral-800 to-neutral-900 border border-neutral-700">
+          <h3 className="text-sm font-medium text-neutral-400 mb-3">{step === 5 ? (<span>Agendado <span className="text-amber-400 font-semibold">{formatShortName(userName)}</span></span>) : 'RESUMO DO AGENDAMENTO'}</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
+            {selectedProfessional && (
+              <div className="flex items-center gap-3 cursor-pointer hover:bg-neutral-700/40 rounded-lg px-2 py-2 transition hover:ring-1 hover:ring-amber-500/40" onClick={() => jumpToStep(0)}>
+                <img 
+                  src={getProfessionalData(selectedProfessional)?.image || "👨‍💈"} 
+                  alt={selectedProfessional}
+                  className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                />
+                <div className="min-w-0">
+                  <p className="text-xs text-neutral-400">PROFISSIONAL</p>
+                  <p className="text-sm font-semibold text-amber-400 truncate">{selectedProfessional}</p>
+                </div>
+              </div>
+            )}
+            
+            {selectedService && (
+              <div className="flex items-center gap-3 cursor-pointer hover:bg-neutral-700/40 rounded-lg px-2 py-2 transition hover:ring-1 hover:ring-amber-500/40" onClick={() => jumpToStep(1)}>
+                <div className="w-10 h-10 rounded-full bg-neutral-700 flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">✂️</span>
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-neutral-400">SERVIÇO</p>
+                  <p className="text-sm font-semibold text-amber-400 truncate">{selectedService}</p>
+                </div>
+              </div>
+            )}
+            
+            {selectedDay && (
+              <div className="flex items-center gap-3 cursor-pointer hover:bg-neutral-700/40 rounded-lg px-2 py-2 transition hover:ring-1 hover:ring-amber-500/40" onClick={() => jumpToStep(2)}>
+                <div className="w-10 h-10 rounded-full bg-neutral-700 flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">📅</span>
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-neutral-400">DATA</p>
+                  <p className="text-sm font-semibold text-amber-400 truncate">
+                    {selectedDay.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' })}
+                  </p>
+                </div>
+              </div>
+            )}
+            
+            {selectedTime && (
+              <div className="flex items-center gap-3 cursor-pointer hover:bg-neutral-700/40 rounded-lg px-2 py-2 transition hover:ring-1 hover:ring-amber-500/40" onClick={() => jumpToStep(3)}>
+                <div className="w-10 h-10 rounded-full bg-neutral-700 flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">⏰</span>
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-neutral-400">HORÁRIO</p>
+                  <p className="text-sm font-semibold text-amber-400 truncate">{selectedTime}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="min-h-48 md:min-h-56 relative">
         {loading && (
@@ -239,76 +408,105 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
             </div>
           </div>
         )}
+        
+        {/* Basic info strip somente nas etapas iniciais (1–3) e quando o resumo unificado não está visível */}
+        {step >= 1 && step <= 3 && !showSummary && (
+          <BookingSummaryStrip
+            selectedProfessional={selectedProfessional}
+            selectedService={selectedService}
+            selectedDay={selectedDay}
+            selectedTime={selectedTime}
+            compact={true}
+            onJump={jumpToStep}
+          />
+        )}
+        
         {step === 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {professionals.map((p) => (
-              <div
-                key={p.name}
-                className={`rounded-xl border p-4 transition hover:scale-[1.02] ${selectedProfessional === p.name ? "border-amber-500 bg-amber-500/10" : "border-neutral-700 bg-neutral-800"}`}
-              >
-                <div className="flex items-start gap-4">
-                  <img 
-                    src={p.image} 
-                    alt={p.name}
-                    className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="font-semibold text-white text-lg">{p.name}</div>
-                        <div className="text-sm text-neutral-300 flex items-center gap-1">
-                          <span className="text-amber-400">★</span> {p.rating}
+          <div>
+            <div className="text-center mb-4">
+              <h3 className="text-lg font-semibold text-white mb-2">Selecione Escolha o profissional</h3>
+              <p className="text-sm text-neutral-300"></p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {professionals.map((p) => (
+                <div
+                  key={p.name}
+                  className={`rounded-xl border p-4 transition hover:scale-[1.02] ${selectedProfessional === p.name ? "border-amber-500 bg-amber-500/10" : "border-neutral-700 bg-neutral-800"}`}
+                >
+                  <div className="flex items-start gap-4">
+                    <img 
+                      src={p.image} 
+                      alt={p.name}
+                      className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="font-semibold text-white text-lg">{p.name}</div>
+                          <div className="text-sm text-neutral-300 flex items-center gap-1">
+                            <span className="text-amber-400">★</span> {p.rating}
+                          </div>
+                          <div className="text-xs text-neutral-400 mt-1">{p.experience} de experiência</div>
                         </div>
-                        <div className="text-xs text-neutral-400 mt-1">{p.experience} de experiência</div>
+                        <button
+                          onClick={() => setSelectedProfessionalDetails(p)}
+                          className="text-neutral-400 hover:text-white transition-colors flex-shrink-0 ml-2"
+                          title="Ver detalhes"
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
                       </div>
-                      <button
-                        onClick={() => setSelectedProfessionalDetails(p)}
-                        className="text-neutral-400 hover:text-white transition-colors flex-shrink-0 ml-2"
-                        title="Ver detalhes"
-                      >
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </button>
                     </div>
                   </div>
+                  <button
+                    onClick={() => setSelectedProfessional(p.name)}
+                    disabled={loading}
+                    className={`w-full mt-3 rounded-lg py-2 text-sm font-medium transition-colors ${
+                      selectedProfessional === p.name 
+                        ? 'bg-amber-500 text-black' 
+                        : 'bg-neutral-700 text-white hover:bg-neutral-600'
+                    } disabled:opacity-50`}
+                  >
+                    {selectedProfessional === p.name ? 'Selecionado' : 'Selecionar'}
+                  </button>
                 </div>
-                <button
-                  onClick={() => setSelectedProfessional(p.name)}
-                  disabled={loading}
-                  className={`w-full mt-3 rounded-lg py-2 text-sm font-medium transition-colors ${
-                    selectedProfessional === p.name 
-                      ? 'bg-amber-500 text-black' 
-                      : 'bg-neutral-700 text-white hover:bg-neutral-600'
-                  } disabled:opacity-50`}
-                >
-                  {selectedProfessional === p.name ? 'Selecionado' : 'Selecionar'}
-                </button>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
         {step === 1 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {services.map((s) => (
-              <button
-                key={s.name}
-                onClick={() => setSelectedService(s.name)}
-                className={`rounded-xl border p-4 text-left transition hover:scale-[1.02] ${selectedService === s.name ? "border-amber-500 bg-amber-500/10" : "border-neutral-700 bg-neutral-800"}`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold text-white">{s.name}</div>
-                    <div className="text-sm text-neutral-300">{s.duration}</div>
+          <div>
+            <div className="text-center mb-4">
+              <h3 className="text-lg font-semibold text-white mb-2">Selecione Escolha o serviço</h3>
+              <p className="text-sm text-neutral-300"></p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {services.map((s) => (
+                <button
+                  key={s.name}
+                  onClick={() => setSelectedService(s.name)}
+                  className={`rounded-xl border p-4 text-left transition hover:scale-[1.02] ${selectedService === s.name ? "border-amber-500 bg-amber-500/10" : "border-neutral-700 bg-neutral-800"}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-semibold text-white">{s.name}</div>
+                      <div className="text-sm text-neutral-300">{s.duration}</div>
+                    </div>
+                    <div className="text-amber-400 font-bold">{s.price}</div>
                   </div>
-                  <div className="text-amber-400 font-bold">{s.price}</div>
-                </div>
-              </button>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         )}
         {step === 2 && (
           <div className="max-w-md mx-auto">
+            <div className="text-center mb-4">
+              <h3 className="text-lg font-semibold text-white mb-2">Selecione o dia Escolha a data</h3>
+              <p className="text-sm text-neutral-300"></p>
+            </div>
             <CalendarPicker 
               selectedDate={selectedDay}
               onDateSelect={(date) => setSelectedDay(date)}
@@ -317,23 +515,11 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
         )}
         {step === 3 && (
           <div>
-            {selectedDay && (
-              <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-neutral-800 to-neutral-900 border border-neutral-700">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs text-neutral-400 mb-1">DATA SELECIONADA</p>
-                    <p className="text-lg font-semibold text-amber-400">
-                      {selectedDay.toLocaleDateString('pt-BR', { 
-                        weekday: 'long', 
-                        day: 'numeric', 
-                        month: 'long' 
-                      })}
-                    </p>
-                  </div>
-                  <div className="text-2xl">📅</div>
-                </div>
-              </div>
-            )}
+            <div className="text-center mb-4">
+              <h3 className="text-lg font-semibold text-white mb-2">Selecione Escolha o horário</h3>
+              <p className="text-sm text-neutral-300"></p>
+            </div>
+
             {selectedTime && holdUntil && (
               <div className="hidden">
                 {/* Console logging for reservation status */}
@@ -358,8 +544,8 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
         {step === 4 && (
           <div className="max-w-md mx-auto">
             <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold text-white mb-2">Confirme seus dados</h3>
-              <p className="text-sm text-neutral-300">Por favor, confirme seu nome e WhatsApp para o agendamento</p>
+              <h3 className="text-lg font-semibold text-white mb-2">Por favor, Confirme seus dados</h3>
+              <p className="text-sm text-neutral-300"></p>
             </div>
             <div className="space-y-4">
               <div>
@@ -383,15 +569,6 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
                 />
               </div>
             </div>
-            <div className="mt-6 p-4 rounded-lg bg-neutral-800 border border-neutral-700">
-              <h4 className="font-semibold text-white mb-3">Resumo do seu agendamento</h4>
-              <div className="space-y-2 text-sm text-neutral-300">
-                <div className="flex justify-between"><span>Profissional</span><span>{selectedProfessional || "—"}</span></div>
-                <div className="flex justify-between"><span>Serviço</span><span>{selectedService || "—"}</span></div>
-                <div className="flex justify-between"><span>Data</span><span>{selectedDay ? selectedDay.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }) : "—"}</span></div>
-                <div className="flex justify-between"><span>Horário</span><span>{selectedTime || "—"}</span></div>
-              </div>
-            </div>
           </div>
         )}
         {step === 5 && (
@@ -402,20 +579,21 @@ const SchedulingWizard = forwardRef<SchedulingWizardRef, SchedulingWizardProps>(
             </div>
             <button
               onClick={() => {
+                const current = { name: userName, whatsapp: userWhatsApp, professional: selectedProfessional, service: selectedService, day: selectedDay, time: selectedTime, payment: selectedPayment };
+                setBookings(prev => [...prev, current]);
                 setAddPerson(true);
                 setCameFromAddPerson(true);
                 setIsSecondPerson(true);
                 setBookingCount(prev => prev + 1);
-                
-                // Reset selections for the new person
                 setSelectedProfessional(undefined);
                 setSelectedService(undefined);
                 setSelectedDay(undefined);
                 setSelectedTime(undefined);
                 setSelectedPayment(undefined);
+                setUserName("");
+                setUserWhatsApp("");
                 setHoldUntil(undefined);
-                
-                // Go directly to professional selection (step 0)
+                setShowSummary(false);
                 simulateLoading();
                 setStep(0);
               }}

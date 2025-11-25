@@ -35,7 +35,11 @@ const CalendarPicker = ({ selectedDate, onDateSelect }: CalendarPickerProps) => 
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
     }
-    
+    // Completa últimas células para layout consistente
+    const totalCells = Math.ceil(days.length / 7) * 7;
+    while (days.length < totalCells) {
+      days.push(null);
+    }
     return days;
   };
   
@@ -52,6 +56,11 @@ const CalendarPicker = ({ selectedDate, onDateSelect }: CalendarPickerProps) => 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return date < today;
+  };
+
+  const isWeekend = (date: Date) => {
+    const d = date.getDay();
+    return d === 0 || d === 6;
   };
   
   const formatDateLabel = (date: Date) => {
@@ -122,9 +131,12 @@ const CalendarPicker = ({ selectedDate, onDateSelect }: CalendarPickerProps) => 
                     ? 'bg-amber-500/20 text-amber-400'
                     : isPast(date)
                     ? 'text-neutral-600 cursor-not-allowed'
-                    : 'text-neutral-300 hover:bg-neutral-800'
+                    : `${isWeekend(date) ? 'text-neutral-300 hover:bg-neutral-800/60' : 'text-neutral-300 hover:bg-neutral-800'}`
                   }
                 `}
+                aria-label={`${date.getDate()} de ${monthNames[date.getMonth()]}${isToday(date) ? ' (Hoje)' : ''}`}
+                aria-current={isToday(date) ? 'date' : undefined}
+                aria-selected={isSelected(date)}
               >
                 <div className="flex flex-col items-center justify-center">
                   <span>{date.getDate()}</span>
